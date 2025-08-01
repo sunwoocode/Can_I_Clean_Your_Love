@@ -1,72 +1,188 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
-public class VacuumController : MonoBehaviour       // Ã»¼Ò±â ÀÌµ¿ ÄÁÆ®·Ñ·¯
+public class VacuumController : MonoBehaviour       // ì²­ì†Œê¸° ì´ë™ ì»¨íŠ¸ë¡¤ëŸ¬
 {
-    public float rotationSpeed = 100f;     // È¸Àü ¼Óµµ
-    public float acceleration = 5f;        // °¡¼Óµµ
-    public float brakePower = 20f;         // ºê·¹ÀÌÅ© °­µµ
-    public float deceleration = 10f;       // ÀÚ¿¬ °¨¼Ó
-    public float maxSpeed = 20;            // ÃÖ°í¼Óµµ
-    public float maxBackSpeed = 10f;       // ÃÖ°í¼Óµµ
+    public float rotationSpeed = 100f;
+    public float acceleration = 5f;
+    public float brakePower = 20f;
+    public float deceleration = 10f;
+    public float maxSpeed = 20f;
+    public float maxBackSpeed = 10f;
+    public float currentSpeed = 0f;
 
-    public float currentSpeed = 0f;        // ÇöÀç ¼Óµµ
     public Rigidbody2D rb;
+
+    // Booster ê´€ë ¨
+    public float boosterSpeed = 10f;
+    public float boosterDuration = 1f;
+    public float boosterCooldown = 4f;
+    private float boosterCooldownTimer = 0f;
+    private bool isBoosterActive = false;
+    private bool isZeroBoosting = false;
+
+    public Image boosterCooldownImage; // ì¿¨íƒ€ì„ ìˆ«ììš© fill bar
+    [SerializeField] private Image GaugedownOverlay; // ë¶€ìŠ¤í„° ì§€ì†ì‹œê°„ ë™ì•ˆ ìœ„ì—ì„œ ì•„ë˜ë¡œ ì¤„ì–´ë“œëŠ” ê²Œì´ì§€
+    [SerializeField] private Image cooldownOverlayImage; // ì¿¨íƒ€ì„ ë™ì•ˆ ê·¸ëƒ¥ ë®ì´ëŠ” ì´ë¯¸ì§€
+    [SerializeField] private TextMeshProUGUI cooldownText; // ìˆ«ì í…ìŠ¤íŠ¸
 
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
     }
 
+    void Update()
+    {
+        HandleBoosterUI();
+
+        if (Input.GetKeyDown(KeyCode.B) && !isBoosterActive && boosterCooldownTimer <= 0f)
+        {
+            StartCoroutine(BoosterRoutine());
+        }
+    }
+
     void FixedUpdate()
     {
-        float v = Input.GetAxis("Vertical");   // ÀüÁø & ÈÄÁø ÀÔ·Â
-        float h = Input.GetAxis("Horizontal"); // È¸Àü ÀÔ·Â
+        if (isZeroBoosting) return;
 
-        // °¡¼Óµµ Ã³¸®
-        if (v > 0)
-        {
-            // ÀüÁø °¡¼Ó
-            currentSpeed += acceleration * Time.fixedDeltaTime;
-        }
-        else if (v < 0)
-        {
-            // ÈÄÁø °¡¼Ó
-            currentSpeed -= acceleration * Time.fixedDeltaTime;
-        }
-        else
-        {
-            // ÀÚ¿¬ °¨¼Ó
-            if (currentSpeed > 0)
-                currentSpeed -= deceleration * Time.fixedDeltaTime;
-            else if (currentSpeed < 0)
-                currentSpeed += deceleration * Time.fixedDeltaTime;
-        }
+        float v = Input.GetAxis("Vertical");
+        float h = Input.GetAxis("Horizontal");
 
-        // ºê·¹ÀÌÅ©
+        // ë¸Œë ˆì´í¬
         if (Input.GetKey(KeyCode.Space))
         {
             if (currentSpeed > 0)
-            {
-                currentSpeed -= brakePower * Time.fixedDeltaTime;
-                if (currentSpeed < 0) currentSpeed = 0; // ¿ª¹æÇâ ÀÌµ¿ ¹æÁö
-            }
+                currentSpeed = Mathf.Max(currentSpeed - brakePower * Time.fixedDeltaTime, 0);
             else if (currentSpeed < 0)
+                currentSpeed = Mathf.Min(currentSpeed + brakePower * Time.fixedDeltaTime, 0);
+        }
+        else
+        {
+            // ê°€ì† / í›„ì§„ / ìì—° ê°ì†
+            if (v > 0)
+                currentSpeed += acceleration * Time.fixedDeltaTime;
+            else if (v < 0)
+                currentSpeed -= acceleration * Time.fixedDeltaTime;
+            else
             {
-                currentSpeed += brakePower * Time.fixedDeltaTime;
-                if (currentSpeed > 0) currentSpeed = 0;
+                if (currentSpeed > 0)
+                    currentSpeed -= deceleration * Time.fixedDeltaTime;
+                else if (currentSpeed < 0)
+                    currentSpeed += deceleration * Time.fixedDeltaTime;
             }
         }
 
-        // ÃÖ°í¼Óµµ Á¦ÇÑ
-        currentSpeed = Mathf.Clamp(currentSpeed, -maxBackSpeed, maxSpeed);
+        // ìµœëŒ€ ì†ë„ ì œí•œ
+        if (!isBoosterActive)
+            currentSpeed = Mathf.Clamp(currentSpeed, -maxBackSpeed, maxSpeed);
 
-        // ÀÌµ¿
         rb.MovePosition(rb.position + (Vector2)(transform.up * currentSpeed * Time.fixedDeltaTime));
 
-        // È¸Àü
         float rotation = -h * rotationSpeed * Time.fixedDeltaTime;
         rb.MoveRotation(rb.rotation + rotation);
+    }
+
+    IEnumerator BoosterRoutine()
+    {
+        isBoosterActive = true;
+
+        float elapsed = 0f;
+        GaugedownOverlay.fillAmount = 1f;
+        GaugedownOverlay.gameObject.SetActive(true); // ì¤„ì–´ë“œëŠ” ê²Œì´ì§€ ì¼œê¸°
+
+        if (Mathf.Approximately(currentSpeed, 0f))
+        {
+            isZeroBoosting = true;
+
+            float boostDistance = 5f;
+            Vector2 start = rb.position;
+            Vector2 target = start + (Vector2)(transform.up * boostDistance);
+
+            while (elapsed < boosterDuration)
+            {
+                rb.MovePosition(Vector2.Lerp(start, target, elapsed / boosterDuration));
+                GaugedownOverlay.fillAmount = 1f - (elapsed / boosterDuration); // ê²Œì´ì§€ ì¤„ì´ê¸°
+                elapsed += Time.deltaTime;
+                yield return null;
+            }
+
+            rb.MovePosition(target);
+            currentSpeed = 0f;
+            isZeroBoosting = false;
+        }
+        else
+        {
+            float boostedSpeed = currentSpeed + boosterSpeed;
+            currentSpeed = boostedSpeed;
+
+            while (elapsed < boosterDuration)
+            {
+                GaugedownOverlay.fillAmount = 1f - (elapsed / boosterDuration); // ê²Œì´ì§€ ì¤„ì´ê¸°
+                elapsed += Time.deltaTime;
+                yield return null;
+            }
+
+            float afterSpeed = GetAfterSpeed(boostedSpeed);
+            currentSpeed = Mathf.Min(afterSpeed, maxSpeed);
+        }
+
+        isBoosterActive = false;
+        boosterCooldownTimer = boosterCooldown;
+
+        GaugedownOverlay.gameObject.SetActive(false); // ê²Œì´ì§€ êº¼ì£¼ê³ 
+        cooldownOverlayImage.gameObject.SetActive(true); // íšŒìƒ‰ ë®ê¸° ì´ë¯¸ì§€ ì¼œê¸°
+
+        StartCoroutine(StartBoosterCooldown());
+    }
+
+    float GetAfterSpeed(float boostedSpeed)
+    {
+        float percent = 100f;
+
+        if (boostedSpeed < 11f) percent = 120f;
+        else if (boostedSpeed < 12f) percent = 119f;
+        else if (boostedSpeed < 13f) percent = 118f;
+        else if (boostedSpeed < 14f) percent = 117f;
+        else if (boostedSpeed < 15f) percent = 116f;
+        else if (boostedSpeed < 16f) percent = 115f;
+        else if (boostedSpeed < 17f) percent = 114f;
+        else if (boostedSpeed < 18f) percent = 113f;
+        else if (boostedSpeed < 19f) percent = 112f;
+        else if (boostedSpeed < 20f) percent = 111f;
+        else if (Mathf.Approximately(boostedSpeed, 20f)) percent = 110f;
+
+        return boostedSpeed * (percent / 100f);
+    }
+
+    IEnumerator StartBoosterCooldown()
+    {
+        cooldownText.gameObject.SetActive(true);
+
+        int count = Mathf.CeilToInt(boosterCooldown);
+        while (count >= 0)
+        {
+            cooldownText.text = count.ToString();
+            yield return new WaitForSeconds(1f);
+            count--;
+        }
+
+        cooldownText.gameObject.SetActive(false);
+        cooldownOverlayImage.gameObject.SetActive(false); // ì¿¨íƒ€ì„ ëë‚¬ìœ¼ë‹ˆê¹Œ ë®ê¸° ì´ë¯¸ì§€ êº¼ì£¼ê¸°
+    }
+
+    void HandleBoosterUI()
+    {
+        if (boosterCooldownTimer > 0f)
+        {
+            boosterCooldownTimer -= Time.deltaTime;
+            boosterCooldownImage.fillAmount = boosterCooldownTimer / boosterCooldown;
+        }
+        else
+        {
+            boosterCooldownImage.fillAmount = 0f;
+        }
     }
 }
