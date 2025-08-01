@@ -63,10 +63,6 @@ public class VacuumSystem : MonoBehaviour       // 청소 시스템
         if (other.CompareTag("Trash"))
         {
             StartCoroutine(Trash(other.transform)); // 빨아들이는 기능
-            counter++;
-
-            CountingUpdateUI();
-            UpdateGaugeUI();
         }
 
         // 장애물 처리
@@ -110,6 +106,10 @@ public class VacuumSystem : MonoBehaviour       // 청소 시스템
         if (trash != null)
         {
             Destroy(trash.gameObject); // 완전히 빨려들면 삭제
+            counter++;
+
+            CountingUpdateUI();
+            UpdateGaugeUI();
         }
     }
 
