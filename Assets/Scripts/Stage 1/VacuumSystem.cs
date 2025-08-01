@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class VacuumSystem : MonoBehaviour       // 청소 시스템
@@ -9,7 +10,13 @@ public class VacuumSystem : MonoBehaviour       // 청소 시스템
     public float knockbackForce = 5f;           // 장애물 넉백 힘
 
     [SerializeField] private int counter = 0;   // 청소 점수
+    public TextMeshProUGUI countingTextUI;        // 쓰래기 카운팅 텍스트
 
+    void CountingUpdateUI()
+    {
+        countingTextUI.text = counter.ToString();
+    }
+   
     private void OnTriggerEnter2D(Collider2D other)
     {
         Rigidbody2D parentRb = transform.parent.GetComponent<Rigidbody2D>();
@@ -19,6 +26,8 @@ public class VacuumSystem : MonoBehaviour       // 청소 시스템
         {
             StartCoroutine(Trash(other.transform)); // 빨아들이는 기능
             counter++;
+
+            CountingUpdateUI();
         }
 
         // 장애물 처리
