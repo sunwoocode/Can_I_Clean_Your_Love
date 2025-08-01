@@ -12,11 +12,49 @@ public class VacuumSystem : MonoBehaviour       // 청소 시스템
     [SerializeField] private int counter = 0;   // 청소 점수
     public TextMeshProUGUI countingTextUI;        // 쓰래기 카운팅 텍스트
 
+    [SerializeField] private Transform gaugeFillTransform; // 게이지 차는 이미지
+    [SerializeField] private int maxCount = 3;             // 총 쓰레기 개수 기준 (게이지 100%)
+
+    [SerializeField] private GameObject rewardPauseOverlay;             // 회색 반투명 이미지
+    [SerializeField] private VacuumController vacuumController;         // 플레이어 움직임 멈출 대상
+    [SerializeField] private MonoBehaviour[] competitorControllers;     // 나중에 추가될 경쟁자들
+
     void CountingUpdateUI()
     {
         countingTextUI.text = counter.ToString();
     }
-   
+
+    void UpdateGaugeUI()
+    {
+        float fillAmount = Mathf.Clamp01((float)counter / maxCount);
+        Vector3 scale = gaugeFillTransform.localScale;
+        scale.x = fillAmount;
+        gaugeFillTransform.localScale = scale;
+
+        if (counter >= maxCount)
+        {
+            EnterRewardPause();
+        }
+    }
+
+    void EnterRewardPause()
+    {
+        if (vacuumController != null)
+            vacuumController.enabled = false;
+
+        if (competitorControllers != null)
+        {
+            foreach (var c in competitorControllers)
+            {
+                if (c != null)
+                    c.enabled = false;
+            }
+        }
+
+        if (rewardPauseOverlay != null)
+            rewardPauseOverlay.SetActive(true);
+    }
+
     private void OnTriggerEnter2D(Collider2D other)
     {
         Rigidbody2D parentRb = transform.parent.GetComponent<Rigidbody2D>();
@@ -28,6 +66,7 @@ public class VacuumSystem : MonoBehaviour       // 청소 시스템
             counter++;
 
             CountingUpdateUI();
+            UpdateGaugeUI();
         }
 
         // 장애물 처리
