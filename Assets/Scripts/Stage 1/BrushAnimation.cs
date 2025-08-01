@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class brushMovement : MonoBehaviour
+public class BrushAnimation : MonoBehaviour
 {
     [SerializeField] private Transform leftBrush;  // Left Brush 오브젝트 연결
     [SerializeField] private Transform rightBrush; // Right Brush 오브젝트 연결
