@@ -7,7 +7,6 @@ public class VacuumSystem : MonoBehaviour       // 청소 시스템
 {
     public float suckSpeed = 5f;                // 빨려 들어가는 이동 속도
     public float shrinkSpeed = 5f;              // 크기 줄어드는 속도
-    public float knockbackForce = 5f;           // 장애물 넉백 힘
 
     [SerializeField] private int counter = 0;   // 청소 점수
     public TextMeshProUGUI countingTextUI;        // 쓰래기 카운팅 텍스트
@@ -18,11 +17,7 @@ public class VacuumSystem : MonoBehaviour       // 청소 시스템
     [SerializeField] private GameObject rewardPauseOverlay;             // 회색 반투명 이미지
     [SerializeField] private VacuumController vacuumController;         // 플레이어 움직임 멈출 대상
     [SerializeField] private MonoBehaviour[] competitorControllers;     // 나중에 추가될 경쟁자들
-
-    void CountingUpdateUI()
-    {
-        countingTextUI.text = counter.ToString();
-    }
+    [SerializeField] private ClassManager classManager;                 // 레벨업 선택 창 출력 CS
 
     void UpdateGaugeUI()
     {
@@ -34,15 +29,16 @@ public class VacuumSystem : MonoBehaviour       // 청소 시스템
         if (counter >= maxCount)
         {
             EnterRewardPause();
+            classManager.ShowClassUIList();     // 레벨업 선택지 출력
         }
     }
 
     void EnterRewardPause()
     {
-        if (vacuumController != null)
+        if (vacuumController != null)           // 청소기 컨트롤러 비활성화
             vacuumController.enabled = false;
 
-        if (competitorControllers != null)
+        if (competitorControllers != null)      // 경쟁자 오브젝트 비활성화
         {
             foreach (var c in competitorControllers)
             {
@@ -51,8 +47,29 @@ public class VacuumSystem : MonoBehaviour       // 청소 시스템
             }
         }
 
-        if (rewardPauseOverlay != null)
+        if (rewardPauseOverlay != null)         // 비활성화 레이어 이미지 활성화
             rewardPauseOverlay.SetActive(true);
+    }
+
+    public void ExitRewardPause()
+    {
+        if (vacuumController != null)           // 청소기 컨트롤러 활성화
+            vacuumController.enabled = true;
+
+        if (competitorControllers != null)      // 경쟁자 오브젝트 활성화
+        {
+            foreach (var c in competitorControllers)
+            {
+                if (c != null)
+                    c.enabled = true;
+            }
+        }
+
+        if (rewardPauseOverlay != null)         // 비활성화 레이어 이미지 비활성화
+            rewardPauseOverlay.SetActive(false);
+
+        counter = 0;
+        UpdateGaugeUI();
     }
 
     private void OnTriggerEnter2D(Collider2D other)
@@ -63,28 +80,6 @@ public class VacuumSystem : MonoBehaviour       // 청소 시스템
         if (other.CompareTag("Trash"))
         {
             StartCoroutine(Trash(other.transform)); // 빨아들이는 기능
-        }
-
-        // 장애물 처리
-        else if (other.CompareTag("Obstacle"))
-        {
-            if (parentRb != null)
-            {
-                parentRb.velocity = Vector2.zero;  // 물리 속도 정지
-            }
-
-            // currentSpeed도 정지
-            VacuumController controller = parentRb.GetComponent<VacuumController>();
-            if (controller != null)
-            {
-                controller.currentSpeed = 0f;
-            }
-
-            // 넉백도 작동하도록
-            if (parentRb != null)
-            {
-                StartCoroutine(Obstacle(parentRb, other));
-            }
         }
     }
 
@@ -108,19 +103,7 @@ public class VacuumSystem : MonoBehaviour       // 청소 시스템
             Destroy(trash.gameObject); // 완전히 빨려들면 삭제
             counter++;
 
-            CountingUpdateUI();
             UpdateGaugeUI();
-        }
-    }
-
-    private IEnumerator Obstacle(Rigidbody2D parentRb, Collider2D obstacle)
-    {
-        yield return new WaitForFixedUpdate(); // 속도 0 적용 후 넉백 처리
-
-        if (parentRb != null)
-        {
-            Vector2 dir = (parentRb.position - (Vector2)obstacle.transform.position).normalized;
-            parentRb.AddForce(dir * knockbackForce, ForceMode2D.Impulse); // 자연스러운 밀림
         }
     }
 }
