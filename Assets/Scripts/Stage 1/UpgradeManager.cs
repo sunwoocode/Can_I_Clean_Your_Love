@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -7,6 +8,7 @@ public class ClassManager : MonoBehaviour     // 업그레이드 페널 출력
 {
     public List<Image> classList = new List<Image>();           // 업그레이드 페널 이미지
     public List<LevelSO> lebelSOList = new List<LevelSO>();     // 업그레이드 종류
+    public TextMeshProUGUI chooseLevelText;                    // 선택한 업그레이드
 
     [SerializeField] private VacuumSystem vacuumSystem;
     [SerializeField] private CleanTimeManager cleanTimeManager;
@@ -38,8 +40,6 @@ public class ClassManager : MonoBehaviour     // 업그레이드 페널 출력
         cleanTimeManager.ResumeTimer();
     }
 
-
-
     public void GetLevel(GameObject selectLevel)      // 선택한 레벨
     {
         int n = 0;
@@ -47,9 +47,8 @@ public class ClassManager : MonoBehaviour     // 업그레이드 페널 출력
         {
             if (selectLevel.name == lebelSOList[n].levelName)
             {
-                Debug.Log(lebelSOList[n].levelName);
-                Debug.Log(lebelSOList[n].levelPoint);
                 lebelSOList[n].levelPoint++;
+                chooseLevelText.text = lebelSOList[n].levelName + "\n" + lebelSOList[n].levelPoint;     // 선택한 레벨 출력
             }
             n++;
         }
