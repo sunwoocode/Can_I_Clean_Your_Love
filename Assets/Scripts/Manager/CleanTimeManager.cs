@@ -34,7 +34,8 @@ public class CleanTimeManager : MonoBehaviour
             yield return null; // 매 프레임 체크
         }
 
-        SceneManager.LoadScene("gameOver");
+        yield return new WaitForSeconds(5f);
+        SceneManager.LoadScene("Main");
     }
 
     public void PauseTimer()
