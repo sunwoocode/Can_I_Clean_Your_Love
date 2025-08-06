@@ -7,12 +7,11 @@ using UnityEngine.UI;
 public class Booster : MonoBehaviour
 {
     // Booster 관련
-    public float boosterSpeed = 10f;                // Booster 속도
-    public float boosterDuration = 1f;              // Booster 지속 시간
     public float boosterCooldown = 4f;              // Booster 쿨타임
     private float boosterCooldownTimer = 0f;        // Booster 쿨타임 타이머
     private bool isBoosterActive = false;           // Booster 중인지 체크
-    private bool isZeroBoosting = false;            // Booster 이전 속도가 0인지 체크
+
+    public float lowBoostSpeed = 8f;                // MovingEffects.sc에서 참조
 
     public Image boosterCooldownImage;                      // 쿨타임 숫자용 fill bar
     [SerializeField] private Image GaugedownOverlay;        // 부스터 지속시간 동안 위에서 아래로 줄어드는 게이지
@@ -20,7 +19,6 @@ public class Booster : MonoBehaviour
     [SerializeField] private TextMeshProUGUI cooldownText;  // 숫자 텍스트
 
     public TextMeshProUGUI gaugeText;                       // 계기판 텍스트
-
     public VacuumController vacuumController;
 
     public void BoosterStarting()
@@ -32,18 +30,20 @@ public class Booster : MonoBehaviour
 
         if (vacuumController.currentSpeed < 7f)
         {
-            StartCoroutine(LowBooster(8f, 0.5f));
+            StartCoroutine(LowBooster(lowBoostSpeed, 0.5f));
+            StartCoroutine(LockAcceleration());
         }
         else if (vacuumController.currentSpeed < 15f)
         {
             StartCoroutine(MiddleBooster(0.5f));
+            StartCoroutine(LockAcceleration());
         }
         else
         {
             StartCoroutine(HighBooster(1f));
+            StartCoroutine(LockAcceleration());
         }
     }
-
 
     IEnumerator LowBooster(float boostAmount, float duration)
     {
@@ -148,7 +148,6 @@ public class Booster : MonoBehaviour
         isBoosterActive = false;
     }
 
-
     IEnumerator StartBoosterCooldown()          // Booster 쿨타임 UI
     {
         cooldownText.gameObject.SetActive(true);
@@ -166,8 +165,14 @@ public class Booster : MonoBehaviour
 
         isBoosterActive = false;
     }
+    IEnumerator LockAcceleration()
+    {
+        vacuumController.isBoosting = true;
+        yield return new WaitForSeconds(2);
+        vacuumController.isBoosting = false;
+    }
 
-    void Update()           // UI 업데이트? - 개별 매서드로 고치고 싶다.
+    void Update()
     {
         HandleBoosterUI();
         UpdateGaugeUI();

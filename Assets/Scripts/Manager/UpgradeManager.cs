@@ -4,32 +4,29 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class ClassManager : MonoBehaviour     // 업그레이드 페널 출력
+public class UpgradeManager : MonoBehaviour     // 업그레이드 페널 출력
 {
     public List<Image> classList = new List<Image>();           // 업그레이드 페널 이미지
-    public List<LevelSO> lebelSOList = new List<LevelSO>();     // 업그레이드 종류
+    public List<LevelSO> levelSOList = new List<LevelSO>();     // 업그레이드 종류
     public TextMeshProUGUI chooseLevelText;                    // 선택한 업그레이드
 
     [SerializeField] private VacuumSystem vacuumSystem;
+    [SerializeField] private VacuumController vacuumController;
     [SerializeField] private CleanTimeManager cleanTimeManager;
-
-    public SpriteRenderer player;
-    public PlayerInfoSO playerInfoSO;
+    [SerializeField] private PlayerInfoSO playerInfoSO;
+    [SerializeField] private PlayerSprite playerSprite;
+    [SerializeField] private UpgradeUI upgradeUI;
 
     public void ShowClassUIList()           // 레벨업 보상 출력 메서드
     {
+        vacuumController.currentSpeed = 0;
+        upgradeUI.UpdateItemTitle();
+
         foreach (Image classUI in classList)
         {
             classUI.gameObject.SetActive(true);
         }
-
-        UpdateLevelUPContents();
         cleanTimeManager.PauseTimer();
-    }
-
-    void UpdateLevelUPContents()            // 레벨업 보상 내용 업데이트
-    {
-        classList[0].sprite = lebelSOList[0].levelImage;
     }
 
     public void HideClassUIList()           // 클래스 보상 제거 메서드
@@ -45,15 +42,15 @@ public class ClassManager : MonoBehaviour     // 업그레이드 페널 출력
 
     public void GetLevel(GameObject selectLevel)      // 선택한 레벨
     {
-        for (int i = 0; i < lebelSOList.Count; i++)
+        for (int i = 0; i < levelSOList.Count; i++)
         {
-            if (selectLevel.name == lebelSOList[i].levelName)
+            if (selectLevel.name == levelSOList[i].name)
             {
-                lebelSOList[i].levelPoint++;
-                chooseLevelText.text = lebelSOList[i].levelName + "\n" + lebelSOList[i].levelPoint;     // 선택한 레벨 출력
+                levelSOList[i].levelPoint++;
+                chooseLevelText.text = levelSOList[i].levelName + "\n" + levelSOList[i].levelPoint;     // 선택한 레벨 출력
 
-                Debug.Log(i);
                 PlyerChange(i);
+                WhatTheLevelEffect(i);
             }
         }
         HideClassUIList();
@@ -61,13 +58,25 @@ public class ClassManager : MonoBehaviour     // 업그레이드 페널 출력
 
     void PlyerChange(int i)      // 플레이어 외형 변화
     {
-        Debug.Log(i);
-        player.sprite = lebelSOList[i].skin;
-        playerInfoSO.playerID = 11;
+        if (i == 0)
+            playerInfoSO.playerID += 10000;
+        if (i == 1)
+            playerInfoSO.playerID += 1000;
+        if (i == 2)
+            playerInfoSO.playerID += 100;
+        if (i == 3)
+            playerInfoSO.playerID += 10;
+        if (i == 4)
+            playerInfoSO.playerID += 1;
+
+        playerSprite.WhatThePartName();
     }
 
-    public void CursorOver()        // 커서가 올려졌을 때
+    void WhatTheLevelEffect(int i)      // 적용
     {
-
+        if (i == 4 && levelSOList[i].levelPoint == 1)
+        {
+            ;
+        }
     }
 }

@@ -17,7 +17,7 @@ public class VacuumSystem : MonoBehaviour       // 청소 시스템
     [SerializeField] private GameObject rewardPauseOverlay;             // 회색 반투명 이미지
     [SerializeField] private VacuumController vacuumController;         // 플레이어 움직임 멈출 대상
     [SerializeField] private MonoBehaviour[] competitorControllers;     // 나중에 추가될 경쟁자들
-    [SerializeField] private ClassManager classManager;                 // 레벨업 선택 창 출력 CS
+    [SerializeField] private UpgradeManager upgradeManager;                 // 레벨업 선택 창 출력 CS
 
     void UpdateGaugeUI()
     {
@@ -29,7 +29,7 @@ public class VacuumSystem : MonoBehaviour       // 청소 시스템
         if (counter >= maxCount)
         {
             EnterRewardPause();
-            classManager.ShowClassUIList();     // 레벨업 선택지 출력
+            upgradeManager.ShowClassUIList();     // 레벨업 선택지 출력
         }
     }
 
@@ -85,7 +85,7 @@ public class VacuumSystem : MonoBehaviour       // 청소 시스템
 
     private IEnumerator CleanTrash(Transform trash)      // 쓰레기 흡입
     {
-        Vector3 startScale = trash.localScale;           // 
+        Vector3 startScale = trash.localScale;
         Vector3 endScale = Vector3.zero;
         float t = 0f;
 

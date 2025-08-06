@@ -12,6 +12,15 @@ public class BrushAnimation : MonoBehaviour
 
     private float timer;
 
+    private Quaternion leftBaseRotation;
+    private Quaternion rightBaseRotation;
+
+    void Start()
+    {
+        // 기준 회전값 설정 (왼쪽: +45도, 오른쪽: -45도)
+        leftBaseRotation = Quaternion.Euler(0f, 0f, 45f);
+        rightBaseRotation = Quaternion.Euler(0f, 0f, -45f);
+    }
     void Update()
     {
         timer += Time.deltaTime * rotationSpeed;
@@ -21,6 +30,6 @@ public class BrushAnimation : MonoBehaviour
 
         // 각각의 브러쉬가 같은 속도로, 반대 방향으로 회전하게 설정
         leftBrush.localRotation = Quaternion.Euler(0f, 0f, angle);
-        rightBrush.localRotation = Quaternion.Euler(0f, 0f, angle);
+        rightBrush.localRotation = Quaternion.Euler(0f, 0f, -angle);
     }
 }
