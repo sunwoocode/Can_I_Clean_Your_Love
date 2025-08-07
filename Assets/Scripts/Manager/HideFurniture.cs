@@ -15,7 +15,6 @@ public class HideFurniture : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        Debug.Log("aaa");
         if (other.gameObject.CompareTag("Player"))
         {
             table.sprite = tableSprite[1];

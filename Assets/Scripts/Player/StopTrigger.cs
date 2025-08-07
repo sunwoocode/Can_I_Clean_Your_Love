@@ -3,17 +3,13 @@ using UnityEngine;
 
 public class StopTrigger : MonoBehaviour
 {
-    private VacuumController controller;
-
-    void Start()
-    {
-        controller = GetComponentInParent<VacuumController>();  // 상위에서 VacuumController 찾기
-    }
+    [SerializeField] private VacuumController controller;
 
     void OnTriggerEnter2D(Collider2D other)
     {
         if (other.CompareTag("Wall"))
         {
+            Debug.Log("aaaa");
             controller.currentSpeed = 0f;
         }
     }

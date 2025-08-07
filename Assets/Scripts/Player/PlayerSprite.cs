@@ -7,6 +7,11 @@ public class PlayerSprite : MonoBehaviour       // PlayerID 계산 공식
     public PlayerInfoSO playerInfoSO;
     public List<GameObject> playerPartList = new List<GameObject>();
 
+    void Start()
+    {
+        WhatThePartName();
+    }
+
     public void WhatThePartName()
     {
         int id = playerInfoSO.playerID;

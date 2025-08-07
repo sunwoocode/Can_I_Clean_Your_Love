@@ -7,7 +7,7 @@ using UnityEngine.UI;
 public class Booster : MonoBehaviour
 {
     // Booster 관련
-    public float boosterCooldown = 4f;              // Booster 쿨타임
+    public float boosterCooldown = 7f;              // Booster 쿨타임
     private float boosterCooldownTimer = 0f;        // Booster 쿨타임 타이머
     private bool isBoosterActive = false;           // Booster 중인지 체크
 
@@ -18,7 +18,6 @@ public class Booster : MonoBehaviour
     [SerializeField] private Image cooldownOverlayImage;    // 쿨타임 동안 그냥 덮이는 이미지
     [SerializeField] private TextMeshProUGUI cooldownText;  // 숫자 텍스트
 
-    public TextMeshProUGUI gaugeText;                       // 계기판 텍스트
     public VacuumController vacuumController;
 
     public void BoosterStarting()
@@ -172,10 +171,21 @@ public class Booster : MonoBehaviour
         vacuumController.isBoosting = false;
     }
 
+    void FixedUpdate()
+    {
+        float finalAccel = vacuumController.isSlowed ? vacuumController.baseAcceleration * 0.5f : vacuumController.baseAcceleration;
+        if (vacuumController.isBoosting) finalAccel = 0f;
+        vacuumController.acceleration = finalAccel;
+    }
+
     void Update()
     {
         HandleBoosterUI();
-        UpdateGaugeUI();
+
+        if (Input.GetKeyDown(KeyCode.B))       // Booster 사용
+        {
+            BoosterStarting();
+        }
     }
 
     void HandleBoosterUI()      // Booster
@@ -189,10 +199,5 @@ public class Booster : MonoBehaviour
         {
             boosterCooldownImage.fillAmount = 0f;
         }
-    }
-
-    void UpdateGaugeUI()        // 개기판 UI 업데이트
-    {
-        gaugeText.text = vacuumController.currentSpeed.ToString();
     }
 }

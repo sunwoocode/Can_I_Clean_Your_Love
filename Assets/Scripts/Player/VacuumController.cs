@@ -16,12 +16,15 @@ public class VacuumController : MonoBehaviour       // 청소기 이동 컨트�
     public float currentSpeed = 0f;                 // 현재 속도
     public Rigidbody2D rb;                          // 플레이어 Rigidbody
 
-    public float baseAcceleration = 3f;       // 항상 유지되는 원래 가속도
+    public float baseAcceleration = 3f;             // 항상 유지되는 원래 가속도
     public bool isSlowed = false;
     public bool isBoosting = false;
 
     public Booster booster;
     public CleanTimeManager cleanTimeManager;
+    public TextMeshProUGUI gaugeText;                       // 계기판 텍스트
+
+    public float slowRate = 0.2f;                   // 기본 감속 비율
 
     void Start()
     {
@@ -32,10 +35,7 @@ public class VacuumController : MonoBehaviour       // 청소기 이동 컨트�
     {
         if (cleanTimeManager.isPaused) return;
 
-        if (Input.GetKeyDown(KeyCode.B))       // Booster 사용
-        {
-            booster.BoosterStarting();
-        }
+        UpdateGaugeUI();
     }
 
     void FixedUpdate()
@@ -44,10 +44,6 @@ public class VacuumController : MonoBehaviour       // 청소기 이동 컨트�
 
         float v = Input.GetAxis("Vertical");
         float h = Input.GetAxis("Horizontal");
-
-        float finalAccel = isSlowed ? baseAcceleration * 0.5f : baseAcceleration;
-        if (isBoosting) finalAccel = 0f;
-        acceleration = finalAccel;
 
         if (Input.GetKey(KeyCode.Space)) // 브레이크
         {
@@ -89,5 +85,29 @@ public class VacuumController : MonoBehaviour       // 청소기 이동 컨트�
         rb.MoveRotation(rb.rotation + rotation);
 
         currentSpeed = Mathf.Clamp(currentSpeed, -maxBackSpeed, maxSpeed);
+    }
+
+    public void ApplySlow()
+    {
+        isSlowed = true;
+        currentSpeed *= slowRate;
+    }
+
+    public void RemoveSlow()
+    {
+        isSlowed = false;
+    }
+
+    void UpdateGaugeUI()        // 개기판 UI 업데이트
+    {
+        gaugeText.text = currentSpeed.ToString();
+    }
+
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.CompareTag("Cat"))
+        {
+            Debug.Log("플레이어를 공격하는걸 성공!");
+        }
     }
 }

@@ -16,6 +16,7 @@ public class UpgradeManager : MonoBehaviour     // 업그레이드 페널 출력
     [SerializeField] private PlayerInfoSO playerInfoSO;
     [SerializeField] private PlayerSprite playerSprite;
     [SerializeField] private UpgradeUI upgradeUI;
+    [SerializeField] private ItemLevelManager itemLevelManager;
 
     public void ShowClassUIList()           // 레벨업 보상 출력 메서드
     {
@@ -47,10 +48,9 @@ public class UpgradeManager : MonoBehaviour     // 업그레이드 페널 출력
             if (selectLevel.name == levelSOList[i].name)
             {
                 levelSOList[i].levelPoint++;
-                chooseLevelText.text = levelSOList[i].levelName + "\n" + levelSOList[i].levelPoint;     // 선택한 레벨 출력
 
                 PlyerChange(i);
-                WhatTheLevelEffect(i);
+                itemLevelManager.ItemLevelApply(i, levelSOList[i].levelPoint);
             }
         }
         HideClassUIList();
@@ -70,13 +70,5 @@ public class UpgradeManager : MonoBehaviour     // 업그레이드 페널 출력
             playerInfoSO.playerID += 1;
 
         playerSprite.WhatThePartName();
-    }
-
-    void WhatTheLevelEffect(int i)      // 적용
-    {
-        if (i == 4 && levelSOList[i].levelPoint == 1)
-        {
-            ;
-        }
     }
 }
