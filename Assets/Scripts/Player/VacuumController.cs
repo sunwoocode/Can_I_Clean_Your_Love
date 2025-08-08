@@ -118,7 +118,7 @@ public class VacuumController : MonoBehaviour       // 청소기 이동 컨트�
             playerHP.HeartCounter();                        // HP 차감
             sturn.SturnEffect();                            
 
-            // 스턴 적용// ⬇ UI 띄우기
+            // 스턴 적용//  UI 띄우기
             if (catUIController != null)
                 catUIController.OnAttackSuccess();
 
