@@ -9,4 +9,9 @@ public class GoToIntroButton : MonoBehaviour
     {
         SceneManager.LoadScene("Intro"); 
     }
+
+    public void ReTry()
+    {
+        SceneManager.LoadScene("stage 1");
+    }
 }

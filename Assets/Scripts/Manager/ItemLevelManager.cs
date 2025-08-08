@@ -6,7 +6,6 @@ using UnityEngine.UI;
 public class ItemLevelManager : MonoBehaviour       // 파츠 레벨업 기능 적용
 {
     #region 변수
-    [SerializeField] private UpgradeManager upgradeManager;
     [SerializeField] private VacuumController controller;
 
     [Header("레이스")]
@@ -22,11 +21,11 @@ public class ItemLevelManager : MonoBehaviour       // 파츠 레벨업 기능 적용
 
     [Header("피통 증가")]
     public GameObject healpack;
+    [SerializeField] private PlayerHP playerHP;
 
     [Header("부스터")]
     public Booster playerBoostComponent;
     public Image boostUI;
-
     #endregion
 
     public void ItemLevelApply(int i, int j)    // i는 파츠 번호, j는 파츠 레벨
@@ -87,19 +86,19 @@ public class ItemLevelManager : MonoBehaviour       // 파츠 레벨업 기능 적용
             {
                 case 2:
                     healpack.SetActive(true);
-                    // 3 + 모자 생성
+                    playerHP.HeartAdder();
                     break;
                 case 3:
-                    // 4
+                    playerHP.HeartAdder();
                     break;
                 case 4:
-                    // 5
+                    playerHP.HeartAdder();
                     break;
                 case 5:
-                    // 6
+                    playerHP.HeartAdder();
                     break;
                 case 6:
-                    // 7
+                    playerHP.HeartAdder();
                     break;
             }
         }

@@ -10,18 +10,20 @@ public class CatHandAttack : MonoBehaviour
 
     [SerializeField] private Collider2D[] spawnZones;
     [SerializeField] private float chaseDuration = 7f;
-    [SerializeField] private float chaseSpeed = 5f;
-    [SerializeField] private float attackMoveDuration = 0.2f;
+    [SerializeField] private float chaseSpeed = 2f;
+    [SerializeField] private float attackMoveDuration = 0.5f;
     [SerializeField] private float fadeOutDuration = 1f;
 
     [SerializeField] private Transform redGauge; // 추가: 레드게이지 오브젝트
     [SerializeField] private float redGaugeMaxScale = 5f; // 최대 크기
-
+    [SerializeField] private float attackLockTime = 6.9f; // 몇 초에 공격 좌표 잠글지
 
     private float alphaStart = 109f;
     private float alphaEnd = 255f;
     private Vector3 originalScale;
     private Vector3 targetScale;
+
+    private Coroutine mainRoutine; // 현재 루틴 저장
 
     private void Awake()
     {
@@ -35,9 +37,44 @@ public class CatHandAttack : MonoBehaviour
             redGauge.localScale = Vector3.zero; // 시작 시 0으로
     }
 
+    private void OnEnable()
+    {
+        // 다시 켜졌을 때 루틴 재시작
+        RestartRoutine();
+    }
+
+    private void OnDisable()
+    {
+        // 루틴 중지
+        if (mainRoutine != null)
+        {
+            StopCoroutine(mainRoutine);
+            mainRoutine = null;
+        }
+
+        // 상태 초기화
+        spriteRenderer.enabled = false;
+        transform.localScale = originalScale;
+
+        if (redGauge != null)
+            redGauge.localScale = Vector3.zero;
+
+        catCollider.SetActive(false);
+    }
+
     private void Start()
     {
-        StartCoroutine(MainRoutine());
+        // Start에서 최초 1회 시작 (씬 시작 시)
+        RestartRoutine();
+    }
+
+    private void RestartRoutine()
+    {
+        // 기존 루틴 정지 후 재시작
+        if (mainRoutine != null)
+            StopCoroutine(mainRoutine);
+
+        mainRoutine = StartCoroutine(MainRoutine());
     }
 
     private IEnumerator MainRoutine()
@@ -63,11 +100,16 @@ public class CatHandAttack : MonoBehaviour
             // 추격
             float chaseTimer = 0f;
             Vector2 attackTarget = Vector2.zero;
+            bool targetLocked = false;
 
             while (chaseTimer < chaseDuration)
             {
-                if (chaseTimer >= chaseDuration - 0.8f)
+                // ★ 지정 시각에 딱 한 번만 공격 좌표 잠금
+                if (!targetLocked && chaseTimer >= attackLockTime)
+                {
                     attackTarget = playerTransform.position;
+                    targetLocked = true;
+                }
 
                 Vector2 targetPos = playerTransform.position;
                 transform.position = Vector2.Lerp(transform.position, targetPos, Time.deltaTime * chaseSpeed);
@@ -111,17 +153,22 @@ public class CatHandAttack : MonoBehaviour
 
     private IEnumerator FadeAlpha(float from, float to, float duration)
     {
-        float timer = 0f;
-        Color c = spriteRenderer.color;
+        float fromA = Mathf.Clamp01(from / 255f);
+        float toA = Mathf.Clamp01(to / 255f);
+        float t = 0f;
+        float dur = Mathf.Max(0.0001f, duration);
 
-        while (timer < duration)
+        while (t < 1f)
         {
-            float alpha = Mathf.Lerp(from, to, timer / duration);
-            spriteRenderer.color = new Color(c.r, c.g, c.b, alpha / 255f);
-            timer += Time.deltaTime;
+            t += Time.deltaTime / dur;
+            var col = spriteRenderer.color;   // 현재 색 읽기
+            col.a = Mathf.Lerp(fromA, toA, t);
+            spriteRenderer.color = col;
             yield return null;
         }
 
-        spriteRenderer.color = new Color(c.r, c.g, c.b, to / 255f);
+        var end = spriteRenderer.color;
+        end.a = toA;
+        spriteRenderer.color = end;
     }
 }

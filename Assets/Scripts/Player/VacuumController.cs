@@ -15,14 +15,20 @@ public class VacuumController : MonoBehaviour       // 청소기 이동 컨트�
     public float maxSpeed = 20f;                    // 전진 최고 속도
     public float currentSpeed = 0f;                 // 현재 속도
     public Rigidbody2D rb;                          // 플레이어 Rigidbody
+    public CatUIController catUIController;
 
     public float baseAcceleration = 3f;             // 항상 유지되는 원래 가속도
     public bool isSlowed = false;
     public bool isBoosting = false;
 
+    private bool hasProcessedHit = false;
+
     public Booster booster;
     public CleanTimeManager cleanTimeManager;
-    public TextMeshProUGUI gaugeText;                       // 계기판 텍스트
+    public TextMeshProUGUI gaugeText;               // 계기판 텍스트
+
+    public PlayerHP playerHP;                       // HP 차감
+    public Sturn sturn;                             // 스턴
 
     public float slowRate = 0.2f;                   // 기본 감속 비율
 
@@ -108,6 +114,19 @@ public class VacuumController : MonoBehaviour       // 청소기 이동 컨트�
         if (other.CompareTag("Cat"))
         {
             Debug.Log("플레이어를 공격하는걸 성공!");
+
+            playerHP.HeartCounter();                        // HP 차감
+            sturn.SturnEffect();                            
+
+            // 스턴 적용// ⬇ UI 띄우기
+            if (catUIController != null)
+                catUIController.OnAttackSuccess();
+
+            Invoke(nameof(ResetHitFlag), 0.25f);  // 0.25초 뒤에 다시 충돌 가능
         }
+    }
+    private void ResetHitFlag()
+    {
+        hasProcessedHit = false;
     }
 }

@@ -9,6 +9,7 @@ public class CleanTimeManager : MonoBehaviour
     [SerializeField] private int totalCleanTime = 60;   // 총 청소 시간
     private float currentTime;                         // 초 단위 부동소수점
     public bool isPaused = false;
+    public GameObject catHandAttack;
 
     void Start()
     {
@@ -34,6 +35,7 @@ public class CleanTimeManager : MonoBehaviour
             yield return null; // 매 프레임 체크
         }
 
+        catHandAttack.SetActive(false);
         yield return new WaitForSeconds(5f);
         SceneManager.LoadScene("Main");
     }

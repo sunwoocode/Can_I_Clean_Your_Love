@@ -18,16 +18,25 @@ public class UpgradeManager : MonoBehaviour     // 업그레이드 페널 출력
     [SerializeField] private UpgradeUI upgradeUI;
     [SerializeField] private ItemLevelManager itemLevelManager;
 
+    public GameObject catHandAttack;
+    public EnermyManager rival;
+
     public void ShowClassUIList()           // 레벨업 보상 출력 메서드
     {
         vacuumController.currentSpeed = 0;
+        vacuumController.gaugeText.text = 0.ToString();
+
         upgradeUI.UpdateItemTitle();
 
         foreach (Image classUI in classList)
         {
             classUI.gameObject.SetActive(true);
         }
+
         cleanTimeManager.PauseTimer();
+        catHandAttack.SetActive(false);
+
+        rival.PauseMove();
     }
 
     public void HideClassUIList()           // 클래스 보상 제거 메서드
@@ -39,6 +48,9 @@ public class UpgradeManager : MonoBehaviour     // 업그레이드 페널 출력
 
         vacuumSystem.ExitRewardPause();
         cleanTimeManager.ResumeTimer();
+        catHandAttack.SetActive(true);
+
+        rival.ResumeMove();
     }
 
     public void GetLevel(GameObject selectLevel)      // 선택한 레벨
