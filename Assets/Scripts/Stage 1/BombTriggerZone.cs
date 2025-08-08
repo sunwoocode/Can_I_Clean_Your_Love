@@ -9,59 +9,82 @@ public class BombTriggerZone : MonoBehaviour
     [SerializeField] private Transform shadowSpawnPoint;    // 그림자 생성 위치 (직접 드래그)
 
     private bool hasTriggered;                      // true 시 낙하
-    public Collider2D tableCollider;                        // 물건 낙하하지 않는 안전 지역
-    
+    public Collider2D tableCollider;                // 물건 낙하하지 않는 안전 지역
+
+    [SerializeField] private float spawnInterval = 2f;      // 2초 간격
+    private Coroutine spawnLoopCo;
+
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (!hasTriggered && other.CompareTag("Player"))
-        {
-            hasTriggered = true;
-            StartCoroutine(SpawnSequence());
-        }
+        if (!other.CompareTag("PlayerBody")) return;   // 메인콜라이더만
+        if (hasTriggered) return;                      // 이미 돌고 있으면 무시
 
-        if (!hasTriggered && other.CompareTag("Table"))
+        hasTriggered = true;
+        if (spawnLoopCo == null) spawnLoopCo = StartCoroutine(SpawnLoop());
+    }
+
+    private void OnTriggerExit2D(Collider2D other)
+    {
+        if (!other.CompareTag("PlayerBody")) return;   // 메인콜라이더만
+
+        hasTriggered = false;
+        if (spawnLoopCo != null) { StopCoroutine(spawnLoopCo); spawnLoopCo = null; }
+    }
+
+    private IEnumerator SpawnLoop()
+    {
+        while (hasTriggered)
         {
-            hasTriggered = false;
+            yield return SpawnSequence();
+            yield return new WaitForSeconds(spawnInterval);
         }
+        spawnLoopCo = null;
     }
 
     private IEnumerator SpawnSequence()
     {
-        if (hasTriggered)
-        {
-            // 1초 대기
-            yield return new WaitForSeconds(1f);
+        // 1초 대기 (원래 로직 유지)
+        yield return new WaitForSeconds(1f);
 
-            // 그림자 위치 기준 생성
-            Vector3 spawnPos = shadowSpawnPoint.position;
-            GameObject shadow = Instantiate(shadowPrefab, spawnPos, Quaternion.identity);
+        Vector3 spawnPos = shadowSpawnPoint != null ? shadowSpawnPoint.position : transform.position;
 
-            // 3초 후 그림자 파괴
-            Destroy(shadow, 3f);
+        // 그림자 생성
+        GameObject shadow = Instantiate(shadowPrefab, spawnPos, Quaternion.identity);
 
-            // 와인도 같은 위치에 생성
-            GameObject wine = Instantiate(winePrefab, spawnPos, Quaternion.identity);
+        // 와인 생성
+        GameObject wine = Instantiate(winePrefab, spawnPos, Quaternion.identity);
 
-            // 와인 떨어지는 애니메이션
-            StartCoroutine(FallAndShrink(wine));
-        }
+        // 와인 축소 → Intact 꺼질 때 그림자 제거
+        yield return StartCoroutine(FallAndShrink(wine, shadow));
     }
 
-    private IEnumerator FallAndShrink(GameObject obj)
+    private IEnumerator FallAndShrink(GameObject wineObj, GameObject shadowObj)
     {
         float duration = 1f;
         float elapsed = 0f;
-        Vector3 startScale = obj.transform.localScale;
-        Vector3 endScale = new Vector3(0.8f, 0.8f, 1f);  // 작아지는 최종 크기
+        Vector3 startScale = wineObj.transform.localScale;
+        Vector3 endScale = new Vector3(0.8f, 0.8f, 1f);
 
+        // 줄어드는 애니메이션
         while (elapsed < duration)
         {
-            obj.transform.localScale = Vector3.Lerp(startScale, endScale, elapsed / duration);
+            wineObj.transform.localScale = Vector3.Lerp(startScale, endScale, elapsed / duration);
             elapsed += Time.deltaTime;
             yield return null;
         }
+        wineObj.transform.localScale = endScale;
 
-        obj.transform.localScale = endScale;
-        // 이후 파편 생성하거나 삭제 로직 넣을 수 있음
+        // Intact 비활성화
+        Transform intact = wineObj.transform.Find("Intact");
+        if (intact != null) intact.gameObject.SetActive(false);
+
+        // 그림자 제거
+        if (shadowObj != null) Destroy(shadowObj);
+
+        // Broken 켜기 (있으면)
+        Transform broken = wineObj.transform.Find("Broken");
+        if (broken != null) broken.gameObject.SetActive(true);
+
+        // 여기서 파편 흩뿌리기 로직 호출 가능
     }
 }

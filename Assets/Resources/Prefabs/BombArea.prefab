@@ -57,7 +57,7 @@ GameObject:
   - component: {fileID: 7003077881651731518}
   - component: {fileID: 3878804625718417292}
   m_Layer: 0
-  m_Name: SpriteRenderer
+  m_Name: WineShadow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
