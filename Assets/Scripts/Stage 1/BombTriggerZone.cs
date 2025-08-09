@@ -8,7 +8,7 @@ public class BombTriggerZone : MonoBehaviour
     [SerializeField] private GameObject winePrefab;         // 와인 프리팹
     [SerializeField] private Transform shadowSpawnPoint;    // 그림자 생성 위치 (직접 드래그)
 
-    private bool hasTriggered;                      // true 시 낙하
+    public bool hasTriggered;                      // true 시 낙하
     public Collider2D tableCollider;                // 물건 낙하하지 않는 안전 지역
 
     [SerializeField] private float spawnInterval = 2f;      // 2초 간격
@@ -25,7 +25,7 @@ public class BombTriggerZone : MonoBehaviour
 
     private void OnTriggerExit2D(Collider2D other)
     {
-        if (!other.CompareTag("PlayerBody")) return;   // 메인콜라이더만
+        if (!other.CompareTag("Player") || other.name != "Player") return;   // 메인콜라이더만
 
         hasTriggered = false;
         if (spawnLoopCo != null) { StopCoroutine(spawnLoopCo); spawnLoopCo = null; }
