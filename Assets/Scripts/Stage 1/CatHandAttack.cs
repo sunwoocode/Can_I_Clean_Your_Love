@@ -5,8 +5,9 @@ using UnityEngine;
 public class CatHandAttack : MonoBehaviour
 {
     [SerializeField] private Transform playerTransform;
-    [SerializeField] private GameObject catCollider;
+    [SerializeField] private GameObject catCollider;      // (기존 그대로, 태그/세팅은 네가 하던 대로)
     [SerializeField] private SpriteRenderer spriteRenderer;
+    [SerializeField] private CatUIController catUI;
 
     [SerializeField] private Collider2D[] spawnZones;
     [SerializeField] private float chaseDuration = 7f;
@@ -14,16 +15,16 @@ public class CatHandAttack : MonoBehaviour
     [SerializeField] private float attackMoveDuration = 0.5f;
     [SerializeField] private float fadeOutDuration = 1f;
 
-    [SerializeField] private Transform redGauge; // 추가: 레드게이지 오브젝트
-    [SerializeField] private float redGaugeMaxScale = 5f; // 최대 크기
-    [SerializeField] private float attackLockTime = 6.9f; // 몇 초에 공격 좌표 잠글지
+    [SerializeField] private Transform redGauge;
+    [SerializeField] private float redGaugeMaxScale = 5f;
+    [SerializeField] private float attackLockTime = 6.9f;
 
     private float alphaStart = 109f;
     private float alphaEnd = 255f;
     private Vector3 originalScale;
     private Vector3 targetScale;
 
-    private Coroutine mainRoutine; // 현재 루틴 저장
+    private Coroutine mainRoutine;
 
     private void Awake()
     {
@@ -32,69 +33,50 @@ public class CatHandAttack : MonoBehaviour
 
         spriteRenderer.color = new Color(0, 0, 0, alphaStart / 255f);
         spriteRenderer.enabled = false;
-
-        if (redGauge != null)
-            redGauge.localScale = Vector3.zero; // 시작 시 0으로
+        if (redGauge != null) redGauge.localScale = Vector3.zero;
     }
 
-    private void OnEnable()
-    {
-        // 다시 켜졌을 때 루틴 재시작
-        RestartRoutine();
-    }
+    private void OnEnable() { RestartRoutine(); }
+    private void Start() { RestartRoutine(); }
 
     private void OnDisable()
     {
-        // 루틴 중지
-        if (mainRoutine != null)
-        {
-            StopCoroutine(mainRoutine);
-            mainRoutine = null;
-        }
+        if (mainRoutine != null) { StopCoroutine(mainRoutine); mainRoutine = null; }
 
-        // 상태 초기화
         spriteRenderer.enabled = false;
         transform.localScale = originalScale;
-
-        if (redGauge != null)
-            redGauge.localScale = Vector3.zero;
-
+        if (redGauge != null) redGauge.localScale = Vector3.zero;
         catCollider.SetActive(false);
-    }
 
-    private void Start()
-    {
-        // Start에서 최초 1회 시작 (씬 시작 시)
-        RestartRoutine();
+        if (catUI != null) catUI.OnShadowActiveChanged(false);
     }
 
     private void RestartRoutine()
     {
-        // 기존 루틴 정지 후 재시작
-        if (mainRoutine != null)
-            StopCoroutine(mainRoutine);
-
+        if (mainRoutine != null) StopCoroutine(mainRoutine);
         mainRoutine = StartCoroutine(MainRoutine());
     }
 
     private IEnumerator MainRoutine()
     {
-        yield return new WaitForSeconds(5f); // 게임 시작 후 5초 뒤 첫 등장
+        yield return new WaitForSeconds(5f); // 첫 등장 지연
 
         while (true)
         {
-            // 등장 위치 설정
+            // 등장 위치
             int rand = Random.Range(0, spawnZones.Length);
             Bounds bounds = spawnZones[rand].bounds;
-            Vector2 spawnPos = bounds.center;
-            transform.position = spawnPos;
+            transform.position = bounds.center;
 
-            // 초기화
+            // 초기화 & 보이기
             transform.localScale = originalScale;
             spriteRenderer.color = new Color(0, 0, 0, alphaStart / 255f);
             spriteRenderer.enabled = true;
 
-            // 추격 전 대기
+            // ★ 부드럽게 -645로 이동 (점프 X)
+            if (catUI != null) catUI.OnShadowActiveChanged(true);
+
+            // 추격 전 살짝 대기
             yield return new WaitForSeconds(0.5f);
 
             // 추격
@@ -104,7 +86,6 @@ public class CatHandAttack : MonoBehaviour
 
             while (chaseTimer < chaseDuration)
             {
-                // ★ 지정 시각에 딱 한 번만 공격 좌표 잠금
                 if (!targetLocked && chaseTimer >= attackLockTime)
                 {
                     attackTarget = playerTransform.position;
@@ -114,7 +95,6 @@ public class CatHandAttack : MonoBehaviour
                 Vector2 targetPos = playerTransform.position;
                 transform.position = Vector2.Lerp(transform.position, targetPos, Time.deltaTime * chaseSpeed);
 
-                // RedGauge 커지게 만들기
                 if (redGauge != null)
                 {
                     float t = chaseTimer / chaseDuration;
@@ -126,27 +106,33 @@ public class CatHandAttack : MonoBehaviour
                 yield return null;
             }
 
-            // 공격 지점 도착 순간: 갑자기 작아지고 알파값 변경
+            if (!targetLocked) attackTarget = playerTransform.position;
+
+            // 공격 연출 (작아지고 진하게)
             transform.position = attackTarget;
             transform.localScale = targetScale;
             spriteRenderer.color = new Color(0, 0, 0, alphaEnd / 255f);
 
-            if (redGauge != null)
-                redGauge.localScale = Vector3.zero;
+            if (redGauge != null) redGauge.localScale = Vector3.zero;
 
-            // 콜라이더 발동
+            // 히트박스 오픈(성공 여부는 VacuumController가 처리)
             catCollider.SetActive(true);
             yield return new WaitForSeconds(0.3f);
             catCollider.SetActive(false);
 
-            // 페이드아웃
+            // ★ 성공 신호가 안 왔다면 실패 처리
+            if (catUI != null && !catUI.IsInRoutine)
+                catUI.OnAttackFail();
+
+            // 손 스프라이트 페이드 아웃
             yield return StartCoroutine(FadeAlpha(alphaEnd, 0f, fadeOutDuration));
 
-            // 리셋
+            // 안전하게 숨김 알림
+            if (catUI != null) catUI.OnShadowActiveChanged(false);
+
+            // 리셋 및 다음 대기
             spriteRenderer.enabled = false;
             transform.localScale = originalScale;
-
-            // 다음 등장을 위해 대기
             yield return new WaitForSeconds(5f);
         }
     }
@@ -155,18 +141,16 @@ public class CatHandAttack : MonoBehaviour
     {
         float fromA = Mathf.Clamp01(from / 255f);
         float toA = Mathf.Clamp01(to / 255f);
-        float t = 0f;
-        float dur = Mathf.Max(0.0001f, duration);
+        float t = 0f, dur = Mathf.Max(0.0001f, duration);
 
         while (t < 1f)
         {
             t += Time.deltaTime / dur;
-            var col = spriteRenderer.color;   // 현재 색 읽기
+            var col = spriteRenderer.color;
             col.a = Mathf.Lerp(fromA, toA, t);
             spriteRenderer.color = col;
             yield return null;
         }
-
         var end = spriteRenderer.color;
         end.a = toA;
         spriteRenderer.color = end;

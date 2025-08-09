@@ -5,7 +5,7 @@ using UnityEngine;
 public class EnermyManager : MonoBehaviour
 {
     [SerializeField] private List<Vector3> positions = new List<Vector3>();
-    [SerializeField] private float moveDuration = 0.5f;
+    [SerializeField] private float moveDuration = 1.5f;
 
     private int currentTargetIndex = 0;
 
