@@ -3,10 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class TutorialToMain : MonoBehaviour
+public class TutorialToMain : MonoBehaviour         // 튜토리얼 이동
 {
-    public void GoToMainScene()
+    public GameObject tutorialEndTrigger;
+
+    void OnTriggerEnter2D(Collider2D other)
     {
-        SceneManager.LoadScene("Main");
+        if (other.CompareTag("Player"))
+        {
+            SceneManager.LoadScene("Stage 1");
+        }
     }
 }

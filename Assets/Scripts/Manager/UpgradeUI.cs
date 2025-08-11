@@ -24,7 +24,7 @@ public class UpgradeUI : MonoBehaviour      // 업그레이드 UI
             {
                 itemTitle[i].text = upgradeManager.levelSOList[i].levelPoint + "단 " + upgradeManager.levelSOList[i].levelName;
                 itemImage[i].sprite = upgradeManager.levelSOList[i].levelImage;
-                itemContent[i].text = upgradeManager.levelSOList[i].levelContent;
+                itemContent[i].text = upgradeManager.levelSOList[i].levelContent[i];
 
                 if (upgradeManager.levelSOList[i].levelPoint == 1)
                 {
@@ -42,6 +42,8 @@ public class UpgradeUI : MonoBehaviour      // 업그레이드 UI
                 var trigger = itemImagePanel[i].GetComponent<EventTrigger>();
                 if (trigger != null)
                     trigger.enabled = false;
+
+                itemContent[i].text += "최고 레벨 달성!";
             }
         }
     }

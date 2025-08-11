@@ -9,9 +9,9 @@ public class Booster : MonoBehaviour
     // Booster 관련
     public float boosterCooldown = 7f;              // Booster 쿨타임
     private float boosterCooldownTimer = 0f;        // Booster 쿨타임 타이머
-    private bool isBoosterActive = false;           // Booster 중인지 체크
+    public bool isBoosterActive = false;            // Booster 중인지 체크
 
-    public float lowBoostSpeed = 8f;                // MovingEffects.sc에서 참조
+    public float lowBoostSpeed = 6f;                // MovingEffects.sc에서 참조
 
     public Image boosterCooldownImage;                      // 쿨타임 숫자용 fill bar
     [SerializeField] private Image GaugedownOverlay;        // 부스터 지속시간 동안 위에서 아래로 줄어드는 게이지
@@ -27,12 +27,12 @@ public class Booster : MonoBehaviour
 
         isBoosterActive = true;
 
-        if (vacuumController.currentSpeed < 7f)
+        if (vacuumController.currentSpeed < 5f)
         {
             StartCoroutine(LowBooster(lowBoostSpeed, 0.5f));
             StartCoroutine(LockAcceleration());
         }
-        else if (vacuumController.currentSpeed < 15f)
+        else if (vacuumController.currentSpeed < 12f)
         {
             StartCoroutine(MiddleBooster(0.5f));
             StartCoroutine(LockAcceleration());
@@ -83,7 +83,7 @@ public class Booster : MonoBehaviour
 
         float passTime = 0f;
         float originalSpeed = vacuumController.currentSpeed;
-        float boostedSpeed = originalSpeed * 1.3f;
+        float boostedSpeed = originalSpeed * 1.2f;
 
         // UI 연출 시작
         GaugedownOverlay.fillAmount = 1f;
@@ -122,8 +122,8 @@ public class Booster : MonoBehaviour
         Debug.Log("HighBooster");
 
         float passTime = 0f;
-        float startSpeed = 25f;
-        float endSpeed = 20f;
+        float startSpeed = 18f;
+        float endSpeed = 15f;
 
         GaugedownOverlay.fillAmount = 1f;
         GaugedownOverlay.gameObject.SetActive(true);

@@ -20,13 +20,13 @@ public class BrushAnimation : MonoBehaviour         // 브러쉬 애니메이션
         if (this.gameObject.name == "SpinBrushFront")
         {
             // 기준 회전값 설정 (왼쪽: +45도, 오른쪽: -45도)
-            leftBaseRotation = Quaternion.Euler(0f, 0f, 45f);
-            rightBaseRotation = Quaternion.Euler(0f, 0f, -45f);
+            leftBaseRotation = Quaternion.Euler(0f, 0f, 75f);
+            rightBaseRotation = Quaternion.Euler(0f, 0f, -15f);
         }
         else
         {
-            leftBaseRotation = Quaternion.Euler(0f, 0f, -210f);
-            rightBaseRotation = Quaternion.Euler(0f, 0f, 210f);
+            leftBaseRotation = Quaternion.Euler(0f, 0f, -165f);
+            rightBaseRotation = Quaternion.Euler(0f, 0f, 255f);
         }
 
         

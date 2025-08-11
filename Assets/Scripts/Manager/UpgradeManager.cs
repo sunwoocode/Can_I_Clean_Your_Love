@@ -22,39 +22,37 @@ public class UpgradeManager : MonoBehaviour     // 업그레이드 페널 출력
     public EnermyManager rival;
     public BombTriggerZone bombTriggerZone;
 
-    public void ShowClassUIList()           // 레벨업 보상 출력 메서드
+    public void ShowClassUIList()
     {
         vacuumController.currentSpeed = 0;
         vacuumController.gaugeText.text = 0.ToString();
 
         upgradeUI.UpdateItemTitle();
-
-        foreach (Image classUI in classList)
-        {
-            classUI.gameObject.SetActive(true);
-        }
+        foreach (Image classUI in classList) classUI.gameObject.SetActive(true);
 
         cleanTimeManager.PauseTimer();
-        catHandAttack.SetActive(false);
+
+        // 변경: 비활성화 대신 Pause
+        catHandAttack.GetComponent<CatHandAttack>().SetPaused(true);
 
         rival.PauseMove();
-        bombTriggerZone.hasTriggered = true;
+        bombTriggerZone.SetPaused(true);
     }
 
-    public void HideClassUIList()           // 클래스 보상 제거 메서드
+    public void HideClassUIList()
     {
-        foreach (Image classUI in classList)
-        {
-            classUI.gameObject.SetActive(false);
-        }
+        foreach (Image classUI in classList) classUI.gameObject.SetActive(false);
 
         vacuumSystem.ExitRewardPause();
         cleanTimeManager.ResumeTimer();
-        catHandAttack.SetActive(true);
+
+        // 변경: 재개
+        catHandAttack.GetComponent<CatHandAttack>().SetPaused(false);
 
         rival.ResumeMove();
-        bombTriggerZone.hasTriggered = false;
+        bombTriggerZone.SetPaused(false);
     }
+
 
     public void GetLevel(GameObject selectLevel)      // 선택한 레벨
     {

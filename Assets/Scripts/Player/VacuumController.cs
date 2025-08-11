@@ -6,13 +6,13 @@ using UnityEngine.UI;
 
 public class VacuumController : MonoBehaviour       // 청소기 이동 컨트롤러
 {
-    [SerializeField] private float rotationSpeed = 100f;              // 회전 속도
+    [SerializeField] private float rotationSpeed = 50f;               // 회전 속도
     [SerializeField] private float brakePower = 20f;                  // 브레이크 속도
     [SerializeField] private float deceleration = 10f;                // 감속도
     [SerializeField] private float maxBackSpeed = 10f;                // 후진 최고 속도
 
-    public float acceleration = 3f;                 // 가속도
-    public float maxSpeed = 20f;                    // 전진 최고 속도
+    public float acceleration = 1.5f;               // 가속도
+    public float maxSpeed = 15f;                    // 전진 최고 속도
     public float currentSpeed = 0f;                 // 현재 속도
     public Rigidbody2D rb;                          // 플레이어 Rigidbody
     public CatUIController catUIController;
@@ -106,7 +106,7 @@ public class VacuumController : MonoBehaviour       // 청소기 이동 컨트�
 
     void UpdateGaugeUI()        // 개기판 UI 업데이트
     {
-        gaugeText.text = currentSpeed.ToString();
+        gaugeText.text = currentSpeed.ToString("F0");
     }
 
     private void OnTriggerEnter2D(Collider2D other)

@@ -16,9 +16,18 @@ public class EnermyManager : MonoBehaviour
 
     private bool isPaused = false;
 
+    public List<GameObject> movingPattern = new List<GameObject>();     // 이동 방향 표시 오브젝트
+    private int movingPatternCounter = 0;
+    [SerializeField] private float previewTime = 0.6f;
+
     void Start()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
+
+        // 시작 시 모든 패턴 끄기
+        for (int i = 0; i < movingPattern.Count; i++)
+            if (movingPattern[i]) movingPattern[i].SetActive(false);
+
         StartCoroutine(MoveLoop());
     }
 
@@ -26,33 +35,67 @@ public class EnermyManager : MonoBehaviour
     {
         while (true)
         {
-            if (isPaused)
+            if (isPaused) { yield return null; continue; }
+
+            // 현재 지점(from)과 다음 지점(to)
+            int fromIdx = currentTargetIndex;
+            int toIdx = (currentTargetIndex + 1) % positions.Count;
+
+            // 1) 다음 구간 프리뷰 켜기 (이동 전 + 이동 중 내내 켜둠)
+            ShowSegment(fromIdx, true);
+
+            // 2) 프리뷰 대기(0.5초). 일시정지 시에는 타이머 진행 멈춤, 프리뷰는 계속 켜진 상태 유지
+            float p = 0f;
+            while (p < previewTime)
             {
+                if (isPaused) { yield return null; continue; }
+                p += Time.deltaTime;
                 yield return null;
-                continue;  // 일시정지 시 루프 대기
             }
 
+            // 3) 실제 이동 (프리뷰는 계속 On 상태)
             Vector3 startPos = transform.position;
-            Vector3 targetPos = positions[currentTargetIndex];
-            float timer = 0f;
+            Vector3 targetPos = positions[toIdx];
 
+            float t = 0f;
             Vector3 direction = (targetPos - startPos).normalized;
             UpdateSpriteDirection(direction);
 
-            while (timer < moveDuration)
+            while (t < moveDuration)
             {
-                if (isPaused) break;  // 중간에 멈추는 것도 반영
-                timer += Time.deltaTime;
-                float t = timer / moveDuration;
-                transform.position = Vector3.Lerp(startPos, targetPos, t);
+                if (isPaused) { yield return null; continue; }
+                t += Time.deltaTime;
+                transform.position = Vector3.Lerp(startPos, targetPos, t / moveDuration);
                 yield return null;
             }
 
+            // 4) 도착: 위치 스냅 + 이번 구간 프리뷰 끄기
             transform.position = targetPos;
-            currentTargetIndex = (currentTargetIndex + 1) % positions.Count;
+            ShowSegment(fromIdx, false);
+
+            // 5) 다음 사이클로
+            currentTargetIndex = toIdx;
         }
     }
 
+    // 프리뷰 세그먼트 On/Off (인덱스 안전 처리)
+    void ShowSegment(int segIdx, bool on)
+    {
+        // 범위 보호
+        if (movingPattern == null || movingPattern.Count == 0) return;
+
+        // 세그먼트 개수와 positions 매핑:
+        // 순환 이동이면 "fromIdx 기준"으로 세그먼트 개수를 positions.Count와 동일하게 두는 게 깔끔.
+        segIdx = Mathf.Clamp(segIdx, 0, movingPattern.Count - 1);
+
+        // 하나만 켜고 나머지는 끄기(가시성 보장)
+        for (int i = 0; i < movingPattern.Count; i++)
+        {
+            var go = movingPattern[i];
+            if (!go) continue;
+            go.SetActive(on && i == segIdx);
+        }
+    }
 
     private void UpdateSpriteDirection(Vector3 dir)
     {

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class FallingItem : MonoBehaviour
@@ -13,6 +14,8 @@ public class FallingItem : MonoBehaviour
     [Header("파편 목표 각도 (Z축 회전)")]
     [SerializeField] private List<float> targetRotations = new List<float>();
 
+    public PlayerHP playerHP;
+    public Sturn sturn;
 
     private void Start()
     {
@@ -86,6 +89,17 @@ public class FallingItem : MonoBehaviour
             Transform shard = broken.GetChild(i);
             shard.localPosition = targetPositions[i];
             shard.localRotation = Quaternion.Euler(0, 0, targetRotations[i]);
+        }
+    }
+
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            Debug.Log("고양이가 얍!");
+
+            playerHP.HeartCounter();
+            sturn.SturnEffect();
         }
     }
 }

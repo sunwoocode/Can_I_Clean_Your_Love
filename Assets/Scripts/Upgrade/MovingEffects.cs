@@ -16,7 +16,20 @@ public class MovingEffects : MonoBehaviour       // 이동 장애 효과
                 vc.ApplySlow();
             }
 
-            if (booster != null) booster.lowBoostSpeed = 4f;
+            if (booster != null)
+            {
+                // 부스터가 활성화 상태일 때도 속도 감소
+                if (booster.isBoosterActive)
+                {
+                    booster.lowBoostSpeed = 4f;
+                }
+                else
+                {
+                    booster.lowBoostSpeed = 4f; // 비활성 상태에서도 기본적으로 감소
+                }
+            }
+
+            if (vc.currentSpeed == 18f) vc.currentSpeed = 10f;
         }
     }
 
@@ -32,8 +45,10 @@ public class MovingEffects : MonoBehaviour       // 이동 장애 효과
                 vc.RemoveSlow();
             }
 
-            if (booster != null) booster.lowBoostSpeed = 8f;
+            if (booster != null)
+            {
+                booster.lowBoostSpeed = 8f; // 원래 속도로 복귀
+            }
         }
     }
 }
-// 레이스 버그 수정해야함 부스터 중간에 들어와도 감소되도록

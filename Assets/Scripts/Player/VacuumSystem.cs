@@ -12,7 +12,7 @@ public class VacuumSystem : MonoBehaviour       // 청소 시스템
     public TextMeshProUGUI countingTextUI;        // 쓰래기 카운팅 텍스트
 
     [SerializeField] private Transform gaugeFillTransform; // 게이지 차는 이미지
-    [SerializeField] private int maxCount = 3;             // 총 쓰레기 개수 기준 (게이지 100%)
+    [SerializeField] private int maxCount = 10;             // 총 쓰레기 개수 기준 (게이지 100%)
 
     [SerializeField] private GameObject rewardPauseOverlay;             // 회색 반투명 이미지
     [SerializeField] private VacuumController vacuumController;         // 플레이어 움직임 멈출 대상
