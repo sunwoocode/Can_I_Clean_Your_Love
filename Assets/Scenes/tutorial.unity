@@ -67047,6 +67047,7 @@ MonoBehaviour:
   redGauge: {fileID: 2069227734}
   redGaugeMaxScale: 5
   attackLockTime: 6.5
+  allowAttack: 0
 --- !u!212 &1910038080
 SpriteRenderer:
   m_ObjectHideFlags: 0

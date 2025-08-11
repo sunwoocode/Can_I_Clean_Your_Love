@@ -3519,17 +3519,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 79215884}
   m_CullTransparentMesh: 1
---- !u!114 &79688824 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 3196551081002282792, guid: 8e2f1ffdd2692a644b94cfc26512c70b, type: 3}
-  m_PrefabInstance: {fileID: 214659616934975628}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9bbd8820e7a9e644789ce090768f784c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &80912161
 GameObject:
   m_ObjectHideFlags: 0
@@ -16203,7 +16192,7 @@ GameObject:
   m_Component:
   - component: {fileID: 434490304}
   - component: {fileID: 434490306}
-  - component: {fileID: 434490305}
+  - component: {fileID: 434490307}
   m_Layer: 0
   m_Name: Collider2D (3)
   m_TagString: Untagged
@@ -16226,24 +16215,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1967936331}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &434490305
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 434490303}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9bbd8820e7a9e644789ce090768f784c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  shadowPrefab: {fileID: 6255222600453350789, guid: 8faabfbd696322446a10bcc7e9e8585f, type: 3}
-  winePrefab: {fileID: 9052799718802022602, guid: 3d30b1c5bf338f04da3a1be9aed742d9, type: 3}
-  shadowSpawnPoint: {fileID: 639792017}
-  hasTriggered: 0
-  tableCollider: {fileID: 1967936329}
-  spawnInterval: 2
 --- !u!61 &434490306
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -16289,6 +16260,31 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 15.533058, y: 22.636703}
   m_EdgeRadius: 0
+--- !u!114 &434490307
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 434490303}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 94db96340493cb948a977a99a42f29de, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spawnerPrefab: {fileID: 6255222600453350789, guid: 8faabfbd696322446a10bcc7e9e8585f, type: 3}
+  spawnAtPlayer: 1
+  spawnOffset: {x: 0, y: 0}
+  spawnParent: {fileID: 0}
+  spawnZ: 0
+  enterDelay: 1
+  onlyOneInstance: 1
+  destroyOnExit: 1
+  pauseOnExit: 1
+  deactivateOnExit: 1
+  playerTag: Player
+  requiredPlayerName: 
+  autoSetTrigger: 1
 --- !u!1 &436141941
 GameObject:
   m_ObjectHideFlags: 0
@@ -39921,6 +39917,7 @@ MonoBehaviour:
   redGauge: {fileID: 1852617442}
   redGaugeMaxScale: 5
   attackLockTime: 6.5
+  allowAttack: 0
 --- !u!1 &1091643891
 GameObject:
   m_ObjectHideFlags: 0
@@ -48983,7 +48980,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1378156476}
   - component: {fileID: 1378156478}
-  - component: {fileID: 1378156477}
+  - component: {fileID: 1378156479}
   m_Layer: 0
   m_Name: Collider2D (4)
   m_TagString: Untagged
@@ -49006,24 +49003,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 758316471}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 90}
---- !u!114 &1378156477
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1378156475}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9bbd8820e7a9e644789ce090768f784c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  shadowPrefab: {fileID: 6255222600453350789, guid: 8faabfbd696322446a10bcc7e9e8585f, type: 3}
-  winePrefab: {fileID: 9052799718802022602, guid: 3d30b1c5bf338f04da3a1be9aed742d9, type: 3}
-  shadowSpawnPoint: {fileID: 639792017}
-  hasTriggered: 0
-  tableCollider: {fileID: 758316469}
-  spawnInterval: 2
 --- !u!61 &1378156478
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -49069,6 +49048,31 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 15.533058, y: 22.636703}
   m_EdgeRadius: 0
+--- !u!114 &1378156479
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1378156475}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 94db96340493cb948a977a99a42f29de, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spawnerPrefab: {fileID: 6255222600453350789, guid: 8faabfbd696322446a10bcc7e9e8585f, type: 3}
+  spawnAtPlayer: 1
+  spawnOffset: {x: 0, y: 0}
+  spawnParent: {fileID: 0}
+  spawnZ: 0
+  enterDelay: 1
+  onlyOneInstance: 1
+  destroyOnExit: 1
+  pauseOnExit: 1
+  deactivateOnExit: 1
+  playerTag: Player
+  requiredPlayerName: 
+  autoSetTrigger: 1
 --- !u!1 &1378681202
 GameObject:
   m_ObjectHideFlags: 0
@@ -49405,6 +49409,36 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1 &1384206418 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7906333987292619772, guid: 8e2f1ffdd2692a644b94cfc26512c70b, type: 3}
+  m_PrefabInstance: {fileID: 214659616934975628}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1384206421
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1384206418}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 94db96340493cb948a977a99a42f29de, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spawnerPrefab: {fileID: 6255222600453350789, guid: 8faabfbd696322446a10bcc7e9e8585f, type: 3}
+  spawnAtPlayer: 1
+  spawnOffset: {x: 0, y: 0}
+  spawnParent: {fileID: 0}
+  spawnZ: 0
+  enterDelay: 1
+  onlyOneInstance: 1
+  destroyOnExit: 1
+  pauseOnExit: 0
+  deactivateOnExit: 1
+  playerTag: Player
+  requiredPlayerName: 
+  autoSetTrigger: 1
 --- !u!1 &1385003964
 GameObject:
   m_ObjectHideFlags: 0
@@ -69460,7 +69494,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1898381004}
   - component: {fileID: 1898381006}
-  - component: {fileID: 1898381005}
+  - component: {fileID: 1898381007}
   m_Layer: 0
   m_Name: Collider2D (2)
   m_TagString: Untagged
@@ -69483,24 +69517,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 361394044}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1898381005
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1898381003}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9bbd8820e7a9e644789ce090768f784c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  shadowPrefab: {fileID: 6255222600453350789, guid: 8faabfbd696322446a10bcc7e9e8585f, type: 3}
-  winePrefab: {fileID: 9052799718802022602, guid: 3d30b1c5bf338f04da3a1be9aed742d9, type: 3}
-  shadowSpawnPoint: {fileID: 639792017}
-  hasTriggered: 0
-  tableCollider: {fileID: 361394042}
-  spawnInterval: 2
 --- !u!61 &1898381006
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -69546,6 +69562,31 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 15.533058, y: 22.636703}
   m_EdgeRadius: 0
+--- !u!114 &1898381007
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1898381003}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 94db96340493cb948a977a99a42f29de, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spawnerPrefab: {fileID: 6255222600453350789, guid: 8faabfbd696322446a10bcc7e9e8585f, type: 3}
+  spawnAtPlayer: 1
+  spawnOffset: {x: 0, y: 0}
+  spawnParent: {fileID: 0}
+  spawnZ: 0
+  enterDelay: 1
+  onlyOneInstance: 1
+  destroyOnExit: 1
+  pauseOnExit: 1
+  deactivateOnExit: 1
+  playerTag: Player
+  requiredPlayerName: 
+  autoSetTrigger: 1
 --- !u!1 &1905419158
 GameObject:
   m_ObjectHideFlags: 0
@@ -73852,7 +73893,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2019667287}
   - component: {fileID: 2019667289}
-  - component: {fileID: 2019667288}
+  - component: {fileID: 2019667290}
   m_Layer: 0
   m_Name: Collider2D
   m_TagString: Untagged
@@ -73875,24 +73916,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1388400097}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2019667288
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2019667286}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9bbd8820e7a9e644789ce090768f784c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  shadowPrefab: {fileID: 6255222600453350789, guid: 8faabfbd696322446a10bcc7e9e8585f, type: 3}
-  winePrefab: {fileID: 9052799718802022602, guid: 3d30b1c5bf338f04da3a1be9aed742d9, type: 3}
-  shadowSpawnPoint: {fileID: 639792017}
-  hasTriggered: 0
-  tableCollider: {fileID: 1388400095}
-  spawnInterval: 2
 --- !u!61 &2019667289
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -73938,6 +73961,31 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 15.533058, y: 22.636703}
   m_EdgeRadius: 0
+--- !u!114 &2019667290
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2019667286}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 94db96340493cb948a977a99a42f29de, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spawnerPrefab: {fileID: 6255222600453350789, guid: 8faabfbd696322446a10bcc7e9e8585f, type: 3}
+  spawnAtPlayer: 1
+  spawnOffset: {x: 0, y: 0}
+  spawnParent: {fileID: 0}
+  spawnZ: 0
+  enterDelay: 1
+  onlyOneInstance: 1
+  destroyOnExit: 1
+  pauseOnExit: 1
+  deactivateOnExit: 1
+  playerTag: Player
+  requiredPlayerName: 
+  autoSetTrigger: 1
 --- !u!1 &2022950959
 GameObject:
   m_ObjectHideFlags: 0
@@ -74172,7 +74220,7 @@ MonoBehaviour:
   itemLevelManager: {fileID: 110659199}
   catHandAttack: {fileID: 1091071743}
   rival: {fileID: 765213293}
-  bombTriggerZone: {fileID: 79688824}
+  bombTrigger: {fileID: 0}
 --- !u!1 &2030637921
 GameObject:
   m_ObjectHideFlags: 0
@@ -77384,9 +77432,17 @@ PrefabInstance:
       value: table
       objectReference: {fileID: 0}
     - target: {fileID: 3196551081002282792, guid: 8e2f1ffdd2692a644b94cfc26512c70b, type: 3}
+      propertyPath: spawnZonePrefab
+      value: 
+      objectReference: {fileID: 6255222600453350789, guid: 8faabfbd696322446a10bcc7e9e8585f, type: 3}
+    - target: {fileID: 3196551081002282792, guid: 8e2f1ffdd2692a644b94cfc26512c70b, type: 3}
       propertyPath: shadowSpawnPoint
       value: 
       objectReference: {fileID: 639792017}
+    - target: {fileID: 3196551081002282792, guid: 8e2f1ffdd2692a644b94cfc26512c70b, type: 3}
+      propertyPath: itemSpawnerPrefab
+      value: 
+      objectReference: {fileID: 1263310675268316604, guid: 8faabfbd696322446a10bcc7e9e8585f, type: 3}
     - target: {fileID: 8691023751214980137, guid: 8e2f1ffdd2692a644b94cfc26512c70b, type: 3}
       propertyPath: m_LocalPosition.x
       value: 16.212149
@@ -77427,10 +77483,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 90
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 3196551081002282792, guid: 8e2f1ffdd2692a644b94cfc26512c70b, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 7906333987292619772, guid: 8e2f1ffdd2692a644b94cfc26512c70b, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1384206421}
   m_SourcePrefab: {fileID: 100100000, guid: 8e2f1ffdd2692a644b94cfc26512c70b, type: 3}
 --- !u!1001 &8076650239784296688
 PrefabInstance:

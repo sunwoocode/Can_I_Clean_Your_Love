@@ -58,7 +58,7 @@ public class CatHandAttack : MonoBehaviour
     {
         if (mainRoutine != null) { StopCoroutine(mainRoutine); mainRoutine = null; }
 
-        // 비활성화 시 초기화(기존 동작 유지). 레벨업 중에는 SetActive를 건드리지 않고 SetPaused만 호출하세요.
+        // 비활성화 시 초기화(기존 동작 유지). 레벨업 중에는 SetActive를 건드리지 않고 SetPaused만 호출하세요. 지피티 썼대요 지피티 썼대
         if (spriteRenderer) { spriteRenderer.enabled = false; }
         transform.localScale = originalScale;
         if (redGauge) redGauge.localScale = Vector3.zero;

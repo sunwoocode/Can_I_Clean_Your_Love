@@ -11,9 +11,10 @@ GameObject:
   - component: {fileID: 7600218799803516313}
   - component: {fileID: 771623203950788406}
   - component: {fileID: 244648415310471832}
+  - component: {fileID: 2479545818288378902}
   m_Layer: 0
   m_Name: Shard_3
-  m_TagString: Trash
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -27,11 +28,11 @@ Transform:
   m_GameObject: {fileID: 230548507103041161}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.056999683, y: -0.041999996, z: 0}
+  m_LocalPosition: {x: -0.0569997, y: -0.042000026, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 5568421349608749942}
+  m_Father: {fileID: 1485812261695762119}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &771623203950788406
 SpriteRenderer:
@@ -159,6 +160,19 @@ PolygonCollider2D:
       - {x: 0.38, y: -0.45}
       - {x: 0.41, y: -0.42}
   m_UseDelaunayMesh: 0
+--- !u!114 &2479545818288378902
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 230548507103041161}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d06790ae93b99af4c9dad4ec87945693, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  group: {fileID: 4660871516639302182}
 --- !u!1 &1837902191872057578
 GameObject:
   m_ObjectHideFlags: 0
@@ -170,9 +184,10 @@ GameObject:
   - component: {fileID: 7943970343229092558}
   - component: {fileID: 4300478838082919512}
   - component: {fileID: 3934049110735881613}
+  - component: {fileID: 5592326843666317539}
   m_Layer: 0
   m_Name: Shard_4
-  m_TagString: Trash
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -186,11 +201,11 @@ Transform:
   m_GameObject: {fileID: 1837902191872057578}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.13000011, y: -0.99099994, z: 0}
+  m_LocalPosition: {x: 0.13000011, y: -0.9909999, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 5568421349608749942}
+  m_Father: {fileID: 1743601306509978737}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &4300478838082919512
 SpriteRenderer:
@@ -314,6 +329,19 @@ PolygonCollider2D:
       - {x: 0.38, y: -0.53999996}
       - {x: 0.38, y: 0.56}
   m_UseDelaunayMesh: 0
+--- !u!114 &5592326843666317539
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1837902191872057578}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d06790ae93b99af4c9dad4ec87945693, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  group: {fileID: 3802463098337894857}
 --- !u!1 &2833053177958309979
 GameObject:
   m_ObjectHideFlags: 0
@@ -325,9 +353,10 @@ GameObject:
   - component: {fileID: 8599026835366725356}
   - component: {fileID: 5754874518786303930}
   - component: {fileID: 6006834695621651945}
+  - component: {fileID: 6744081526916048732}
   m_Layer: 0
   m_Name: Shard_2
-  m_TagString: Trash
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -341,11 +370,11 @@ Transform:
   m_GameObject: {fileID: 2833053177958309979}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.23000002, y: 0.07800001, z: 0}
+  m_LocalPosition: {x: 0.23000002, y: 0.07800004, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 5568421349608749942}
+  m_Father: {fileID: 1485812261695762119}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &5754874518786303930
 SpriteRenderer:
@@ -463,6 +492,68 @@ PolygonCollider2D:
       - {x: 0.28, y: 0.61}
       - {x: 0.19999999, y: 0.71999997}
   m_UseDelaunayMesh: 0
+--- !u!114 &6744081526916048732
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2833053177958309979}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d06790ae93b99af4c9dad4ec87945693, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  group: {fileID: 4660871516639302182}
+--- !u!1 &3447926569616467158
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1743601306509978737}
+  - component: {fileID: 3802463098337894857}
+  m_Layer: 0
+  m_Name: GroupB
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1743601306509978737
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3447926569616467158}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 7943970343229092558}
+  - {fileID: 6563753609194328711}
+  m_Father: {fileID: 5568421349608749942}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3802463098337894857
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3447926569616467158}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4d7ef3a7be79054fa03e0fca3d8f4b8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  shardMembers:
+  - {fileID: 7943970343229092558}
+  - {fileID: 6563753609194328711}
 --- !u!1 &4086735456730421743
 GameObject:
   m_ObjectHideFlags: 0
@@ -492,11 +583,8 @@ Transform:
   m_LocalScale: {x: 0.8, y: 0.85, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 2239147125161405997}
-  - {fileID: 8599026835366725356}
-  - {fileID: 7600218799803516313}
-  - {fileID: 7943970343229092558}
-  - {fileID: 6563753609194328711}
+  - {fileID: 1485812261695762119}
+  - {fileID: 1743601306509978737}
   m_Father: {fileID: 7596199843314637278}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &4242711093638259172
@@ -634,6 +722,57 @@ PolygonCollider2D:
       - {x: 0.58778536, y: -0.80901694}
       - {x: 0.9510565, y: 0.30901712}
   m_UseDelaunayMesh: 0
+--- !u!1 &5078529086094513857
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1485812261695762119}
+  - component: {fileID: 4660871516639302182}
+  m_Layer: 0
+  m_Name: GroupA
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1485812261695762119
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5078529086094513857}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 2239147125161405997}
+  - {fileID: 8599026835366725356}
+  - {fileID: 7600218799803516313}
+  m_Father: {fileID: 5568421349608749942}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4660871516639302182
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5078529086094513857}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4d7ef3a7be79054fa03e0fca3d8f4b8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  shardMembers:
+  - {fileID: 2239147125161405997}
+  - {fileID: 8599026835366725356}
+  - {fileID: 7600218799803516313}
 --- !u!1 &8581366496950544944
 GameObject:
   m_ObjectHideFlags: 0
@@ -645,9 +784,10 @@ GameObject:
   - component: {fileID: 2239147125161405997}
   - component: {fileID: 3303087755359612464}
   - component: {fileID: 7119089079675035210}
+  - component: {fileID: 3578945397095375792}
   m_Layer: 0
   m_Name: Shard_1
-  m_TagString: Trash
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -661,11 +801,11 @@ Transform:
   m_GameObject: {fileID: 8581366496950544944}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.016999722, y: 1.176, z: 0}
+  m_LocalPosition: {x: -0.016999729, y: 1.176, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 5568421349608749942}
+  m_Father: {fileID: 1485812261695762119}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &3303087755359612464
 SpriteRenderer:
@@ -707,7 +847,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 7
+  m_SortingOrder: 6
   m_Sprite: {fileID: 21300000, guid: eda184830fb8ac74f80ad9040599e88b, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -787,6 +927,19 @@ PolygonCollider2D:
       - {x: 0.08, y: -0.65}
       - {x: 0.16, y: -0.65}
   m_UseDelaunayMesh: 0
+--- !u!114 &3578945397095375792
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8581366496950544944}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d06790ae93b99af4c9dad4ec87945693, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  group: {fileID: 4660871516639302182}
 --- !u!1 &9052799718802022602
 GameObject:
   m_ObjectHideFlags: 0
@@ -847,6 +1000,9 @@ MonoBehaviour:
   - 9
   - -38
   - 16
+  playerSR: {fileID: 0}
+  playerCollider: {fileID: 0}
+  belowOffset: -2
   playerHP: {fileID: 0}
   sturn: {fileID: 0}
 --- !u!1 &9193657795546029104
@@ -860,9 +1016,10 @@ GameObject:
   - component: {fileID: 6563753609194328711}
   - component: {fileID: 5842769813663859262}
   - component: {fileID: 3802738603682548542}
+  - component: {fileID: 1460807549525378962}
   m_Layer: 0
   m_Name: Shard_5
-  m_TagString: Trash
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -876,11 +1033,11 @@ Transform:
   m_GameObject: {fileID: 9193657795546029104}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.009999752, y: -1.021, z: 0}
+  m_LocalPosition: {x: -0.0099997595, y: -1.021, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 5568421349608749942}
+  m_Father: {fileID: 1743601306509978737}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &5842769813663859262
 SpriteRenderer:
@@ -1010,3 +1167,16 @@ PolygonCollider2D:
       - {x: -0.17999999, y: -0.48999998}
       - {x: -0.089999996, y: -0.48}
   m_UseDelaunayMesh: 0
+--- !u!114 &1460807549525378962
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9193657795546029104}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d06790ae93b99af4c9dad4ec87945693, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  group: {fileID: 3802463098337894857}
