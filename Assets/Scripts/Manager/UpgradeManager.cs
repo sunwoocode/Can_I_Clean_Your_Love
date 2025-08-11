@@ -20,7 +20,7 @@ public class UpgradeManager : MonoBehaviour     // 업그레이드 페널 출력
 
     public GameObject catHandAttack;
     public EnermyManager rival;
-    public BombTriggerGate bombTrigger;
+    public BombTriggerGate bombTriggerGate;
 
     public void ShowClassUIList()
     {
@@ -36,7 +36,7 @@ public class UpgradeManager : MonoBehaviour     // 업그레이드 페널 출력
         catHandAttack.GetComponent<CatHandAttack>().SetPaused(true);
 
         rival.PauseMove();
-        bombTrigger.SetPaused(true);
+        bombTriggerZone.SetPaused(true);
     }
 
     public void HideClassUIList()
@@ -50,7 +50,7 @@ public class UpgradeManager : MonoBehaviour     // 업그레이드 페널 출력
         catHandAttack.GetComponent<CatHandAttack>().SetPaused(false);
 
         rival.ResumeMove();
-        bombTrigger.SetPaused(false);
+        bombTriggerZone.SetPaused(false);
     }
 
 
