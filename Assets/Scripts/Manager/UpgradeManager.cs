@@ -36,7 +36,7 @@ public class UpgradeManager : MonoBehaviour     // 업그레이드 페널 출력
         catHandAttack.GetComponent<CatHandAttack>().SetPaused(true);
 
         rival.PauseMove();
-        bombTriggerZone.SetPaused(true);
+        bombTriggerGate.SetPaused(true);
     }
 
     public void HideClassUIList()
@@ -50,7 +50,7 @@ public class UpgradeManager : MonoBehaviour     // 업그레이드 페널 출력
         catHandAttack.GetComponent<CatHandAttack>().SetPaused(false);
 
         rival.ResumeMove();
-        bombTriggerZone.SetPaused(false);
+        bombTriggerGate.SetPaused(false);
     }
 
 

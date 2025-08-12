@@ -42,13 +42,12 @@ public class ItemLevelManager : MonoBehaviour       // 파츠 레벨업 기능 적용
 
     void Start()
     {
-        // 자릿수 분해: 0=레이스, 1=모자, 2=오이, 3=부스터, 4=발바닥
         itemIndex[0] = levelIndex[0].levelPoint;
         itemIndex[1] = levelIndex[1].levelPoint;
         itemIndex[2] = levelIndex[2].levelPoint;
         itemIndex[3] = levelIndex[3].levelPoint;
         itemIndex[4] = levelIndex[4].levelPoint;
-
+        
         ApplyLevelsFromDigits();
     }
 

@@ -36,8 +36,11 @@ public class CleanTimeManager : MonoBehaviour
         }
 
         catHandAttack.SetActive(false);
-        yield return new WaitForSeconds(5f);
-        SceneManager.LoadScene("Main");
+
+        string currentSceneName = SceneManager.GetActiveScene().name;
+        if (currentSceneName == "Stage 1") SceneManager.LoadScene("stage 2");
+        if (currentSceneName == "Stage 2") SceneManager.LoadScene("stage 3");
+        if (currentSceneName == "Stage 3") SceneManager.LoadScene("Intro");
     }
 
     public void PauseTimer()

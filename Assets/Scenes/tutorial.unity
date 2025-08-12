@@ -15209,12 +15209,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9bbd8820e7a9e644789ce090768f784c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  shadowPrefab: {fileID: 6255222600453350789, guid: 8faabfbd696322446a10bcc7e9e8585f, type: 3}
-  winePrefab: {fileID: 9052799718802022602, guid: 3d30b1c5bf338f04da3a1be9aed742d9, type: 3}
-  shadowSpawnPoint: {fileID: 1251307353}
-  hasTriggered: 0
-  tableCollider: {fileID: 485682566}
-  spawnInterval: 2
 --- !u!61 &463333526
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -29109,7 +29103,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2956b8c2c07b5a84dba0e6daa11f411d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  changingMap: {fileID: 2003924370}
+  changingMap: {fileID: 231975712}
 --- !u!1 &829824211
 GameObject:
   m_ObjectHideFlags: 0
@@ -46649,7 +46643,7 @@ MonoBehaviour:
   itemLevelManager: {fileID: 1525854387}
   catHandAttack: {fileID: 1910038078}
   rival: {fileID: 49941760}
-  bombTrigger: {fileID: 0}
+  bombTriggerGate: {fileID: 0}
 --- !u!4 &1277448401
 Transform:
   m_ObjectHideFlags: 0
@@ -55023,6 +55017,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   controller: {fileID: 1251307373}
+  levelIndex: []
   fasterMoving: {fileID: 1251307372}
   frontDuster: {fileID: 1251307371}
   backDuster: {fileID: 1251307370}
@@ -55034,6 +55029,7 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   sturn: {fileID: 1839315533}
+  hat: {fileID: 0}
   healpack: {fileID: 1251307363}
   playerHP: {fileID: 1407140566}
   playerBoostComponent: {fileID: 1251307362}

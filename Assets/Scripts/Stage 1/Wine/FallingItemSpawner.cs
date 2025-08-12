@@ -32,8 +32,8 @@ public class FallingItemSpawner : MonoBehaviour
 
     [Header("자동 스폰 타이밍")]
     [SerializeField] private float firstDelay = 1f;
-    [SerializeField] private float cycleInterval = 3f;     // 다음 좌표 스냅샷까지 대기
-    [SerializeField] private int spawnCount = 3;       // 한 사이클 몇 개
+    [SerializeField] private float cycleInterval = 5f;     // 다음 좌표 스냅샷까지 대기
+    [SerializeField] private int spawnCount = 5;       // 한 사이클 몇 개
     [SerializeField] private float spawnGap = 0.8f;    // 간격
 
     [Header("기타 옵션")]

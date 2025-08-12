@@ -47,7 +47,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fallingItemPrefab: {fileID: 9052799718802022602, guid: 3d30b1c5bf338f04da3a1be9aed742d9, type: 3}
-  shadowPrefab: {fileID: 8660675445859470416}
+  shadowPrefab: {fileID: 8500072511173629586}
   shadowTemplate: {fileID: 0}
   shadowTemplateName: WineShadow
   itemsParent: {fileID: 0}
