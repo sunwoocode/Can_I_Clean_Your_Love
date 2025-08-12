@@ -279,7 +279,7 @@ Camera:
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 2
-  m_BackGroundColor: {r: 0.09928401, g: 0.10952853, b: 0.12578613, a: 0}
+  m_BackGroundColor: {r: 0, g: 0, b: 0, a: 0}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0
@@ -738,7 +738,7 @@ MonoBehaviour:
   gaugeFillTransform: {fileID: 0}
   maxCount: 10
   rewardPauseOverlay: {fileID: 0}
-  vacuumController: {fileID: 0}
+  vacuumController: {fileID: 2371593985788805247}
   competitorControllers:
   - {fileID: 0}
   upgradeManager: {fileID: 0}
@@ -1238,7 +1238,7 @@ MonoBehaviour:
   gaugeFillTransform: {fileID: 0}
   maxCount: 10
   rewardPauseOverlay: {fileID: 0}
-  vacuumController: {fileID: 0}
+  vacuumController: {fileID: 2371593985788805247}
   competitorControllers:
   - {fileID: 0}
   upgradeManager: {fileID: 0}
@@ -1556,7 +1556,7 @@ MonoBehaviour:
   gaugeFillTransform: {fileID: 0}
   maxCount: 10
   rewardPauseOverlay: {fileID: 0}
-  vacuumController: {fileID: 0}
+  vacuumController: {fileID: 2371593985788805247}
   competitorControllers:
   - {fileID: 0}
   upgradeManager: {fileID: 0}
@@ -2010,6 +2010,94 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1 &6919525193644238719
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6071485685161194086}
+  - component: {fileID: 6522723734461867677}
+  - component: {fileID: 4476414608438971193}
+  m_Layer: 0
+  m_Name: Collider2D
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6071485685161194086
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6919525193644238719}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5909983154743797545}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!58 &6522723734461867677
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6919525193644238719}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Radius: 2.3
+--- !u!114 &4476414608438971193
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6919525193644238719}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ab8ef9c9325496446b1923c6e250124d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  zoneTag: BombZone
+  tableTag: Table
+  logState: 0
+  burstCount: 3
+  burstInterval: 0.8
+  loopCooldown: 5
+  spawnZ: 0
+  winePrefab: {fileID: 9052799718802022602, guid: 3d30b1c5bf338f04da3a1be9aed742d9, type: 3}
 --- !u!1 &7468953756830349882
 GameObject:
   m_ObjectHideFlags: 0
@@ -2179,7 +2267,7 @@ MonoBehaviour:
   gaugeFillTransform: {fileID: 0}
   maxCount: 10
   rewardPauseOverlay: {fileID: 0}
-  vacuumController: {fileID: 0}
+  vacuumController: {fileID: 2371593985788805247}
   competitorControllers:
   - {fileID: 0}
   upgradeManager: {fileID: 0}
@@ -2334,6 +2422,7 @@ Transform:
   - {fileID: 2158098128000385677}
   - {fileID: 6609802477267568641}
   - {fileID: 1837924971986036772}
+  - {fileID: 6071485685161194086}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &3363127317535704485
@@ -2819,7 +2908,7 @@ MonoBehaviour:
   gaugeFillTransform: {fileID: 0}
   maxCount: 10
   rewardPauseOverlay: {fileID: 0}
-  vacuumController: {fileID: 0}
+  vacuumController: {fileID: 2371593985788805247}
   competitorControllers:
   - {fileID: 0}
   upgradeManager: {fileID: 0}
@@ -2944,7 +3033,7 @@ MonoBehaviour:
   gaugeFillTransform: {fileID: 0}
   maxCount: 10
   rewardPauseOverlay: {fileID: 0}
-  vacuumController: {fileID: 0}
+  vacuumController: {fileID: 2371593985788805247}
   competitorControllers:
   - {fileID: 0}
   upgradeManager: {fileID: 0}

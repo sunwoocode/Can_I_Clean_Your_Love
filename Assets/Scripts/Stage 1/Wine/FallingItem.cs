@@ -1,26 +1,34 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
-// ¼öÁ¤ ¾ÈÇÏ½Ã´Â°É ÃßÃµÇÔ 
+// ìˆ˜ì • ì•ˆí•˜ì‹œëŠ”ê±¸ ì¶”ì²œí•¨ 
 public class FallingItem : MonoBehaviour
 {
-    [Header("¿ÀºêÁ§Æ®")]
+    [Header("ì˜¤ë¸Œì íŠ¸")]
     [SerializeField] private GameObject intactObj;
     [SerializeField] private GameObject brokenObj;
+    [SerializeField] private GameObject shadowObj;
 
-    [Header("ÆÄÆí ¸ñÇ¥ À§Ä¡ (·ÎÄÃ ±âÁØ)")]
+    [Header("ì¸íƒíŠ¸/ì‰ë„ìš° ì¶•ì†Œ ì„¤ì •")]
+    [SerializeField] private float shrinkDuration = 1f;     // 1ì´ˆ
+    [SerializeField] private float intactScaleFactor = 0.8f; // ì¸íƒíŠ¸ ìµœì¢… ë°°ìœ¨
+    [Tooltip("ì‰ë„ìš°ì˜ ìµœì¢… ë¡œì»¬ ìŠ¤ì¼€ì¼ (ì ˆëŒ€ê°’). X=1.4, Y=1.3 ìš”êµ¬ì‚¬í•­ ë°˜ì˜")]
+    [SerializeField] private Vector2 shadowTargetScaleXY = new Vector2(1.4f, 1.3f);
+    [SerializeField] private AnimationCurve shrinkCurve = AnimationCurve.EaseInOut(0, 0, 1, 1);
+
+    [Header("íŒŒí¸ ëª©í‘œ ìœ„ì¹˜ (ë¡œì»¬ ê¸°ì¤€)")]
     [SerializeField] private List<Vector3> targetPositions = new List<Vector3>();
 
-    [Header("ÆÄÆí ¸ñÇ¥ °¢µµ (ZÃà È¸Àü)")]
+    [Header("íŒŒí¸ ëª©í‘œ ê°ë„ (Zì¶• íšŒì „)")]
     [SerializeField] private List<float> targetRotations = new List<float>();
 
-    [Header("Á¤·Ä(Sorting) ÂüÁ¶(ÀÚµ¿ ÇÒ´ç)")]
+    [Header("ì •ë ¬(Sorting) ì°¸ì¡°(ìë™ í• ë‹¹)")]
     [SerializeField] private SpriteRenderer playerSR;
     [SerializeField] private Collider2D playerCollider;
 
-    [SerializeField] private int belowOffset = -2;   // ¹ÛÀÌ¸é player-2
+    [SerializeField] private int belowOffset = -2;   // ë°–ì´ë©´ player-2
 
     private Transform[] shards;
     private bool scatterFinished = false;
@@ -29,6 +37,12 @@ public class FallingItem : MonoBehaviour
 
     public PlayerHP playerHP;
     public Sturn sturn;
+
+    // ë‚´ë¶€ ìºì‹œ(ìŠ¤ì¼€ì¼ ì‹œì‘/ëª©í‘œ)
+    private Vector3 intactStartScale;
+    private Vector3 intactTargetScale;
+    private Vector3 shadowStartScale;
+    private Vector3 shadowTargetScale;
 
     void Awake()
     {
@@ -43,38 +57,68 @@ public class FallingItem : MonoBehaviour
         }
     }
 
+    void OnEnable()
+    {
+        // ì´ˆê¸° í™œì„±/ìŠ¤ì¼€ì¼ ìƒíƒœ ì¤€ë¹„
+        if (intactObj)
+        {
+            intactObj.SetActive(true);
+            intactStartScale = intactObj.transform.localScale;
+            intactTargetScale = intactStartScale * intactScaleFactor;
+        }
+        if (shadowObj)
+        {
+            shadowObj.SetActive(true);
+            shadowStartScale = shadowObj.transform.localScale;
+            // ì ˆëŒ€ ëª©í‘œ(ìš”êµ¬: 1.4, 1.3) â€” ZëŠ” ê¸°ì¡´ê°’ ìœ ì§€
+            shadowTargetScale = new Vector3(shadowTargetScaleXY.x, shadowTargetScaleXY.y, shadowStartScale.z);
+        }
+        if (brokenObj) brokenObj.SetActive(false);
+    }
+
     void Start() => StartCoroutine(FallRoutine());
 
     IEnumerator FallRoutine()
     {
-        // 1ÃÊ µ¿¾È intact¸¸ ¼­¼­È÷ ÁÙ¾îµê
-        float duration = 1f, elapsed = 0f;
-        Vector3 initialScale = intactObj.transform.localScale;
-        Vector3 targetScale = initialScale * 0.8f;
+        // 1) ì¸íƒíŠ¸ & ì‰ë„ìš° ë™ì‹œ ì¶•ì†Œ(ë³€í˜•)
+        float elapsed = 0f;
+        float duration = Mathf.Max(0.0001f, shrinkDuration);
 
         while (elapsed < duration)
         {
-            if (intactObj) intactObj.transform.localScale = Vector3.Lerp(initialScale, targetScale, elapsed / duration);
+            float t = Mathf.Clamp01(elapsed / duration);
+            float u = shrinkCurve.Evaluate(t);
+
+            if (intactObj)
+                intactObj.transform.localScale = Vector3.Lerp(intactStartScale, intactTargetScale, u);
+
+            if (shadowObj)
+                shadowObj.transform.localScale = Vector3.Lerp(shadowStartScale, shadowTargetScale, u);
+
             elapsed += Time.deltaTime;
             yield return null;
         }
-        if (intactObj) intactObj.transform.localScale = targetScale;
 
-        // ÆÄÆíÀ¸·Î ±³Ã¼
+        // ë³´ì •
+        if (intactObj) intactObj.transform.localScale = intactTargetScale;
+        if (shadowObj) shadowObj.transform.localScale = shadowTargetScale;
+
+        // 2) íŒŒí¸ìœ¼ë¡œ êµì²´ (Intact/Shadow ë¹„í™œì„±, Broken í™œì„±)
         if (intactObj) intactObj.SetActive(false);
+        if (shadowObj) shadowObj.SetActive(false);
         if (brokenObj)
         {
             brokenObj.SetActive(true);
 
-            // ¡Ú ÆÛÁö±â Àü¿£ Àı´ë ¸ø ¸Ô°Ô ÀüºÎ Untagged
+            // í¼ì§€ê¸° ì „ì—” ì ˆëŒ€ ëª» ë¨¹ê²Œ ì „ë¶€ Untagged
             SetCollectibleTag(brokenObj.transform, false);
 
             yield return StartCoroutine(MoveShards(brokenObj.transform));
 
-            // ¡Ú ÆÛÁö±â ¿Ï·á ¡æ ÀÌÁ¦ºÎÅÍ ¸ÔÀ» ¼ö ÀÖ°Ô Trash·Î ÀüÈ¯
+            // í¼ì§€ê¸° ì™„ë£Œ  ì´ì œë¶€í„° ë¨¹ì„ ìˆ˜ ìˆê²Œ Trashë¡œ ì „í™˜
             SetCollectibleTag(brokenObj.transform, true);
 
-            // ÃÊ±â Á¤·Ä È®Á¤
+            // ì´ˆê¸° ì •ë ¬ í™•ì •
             InitialFinalize(brokenObj.transform);
             scatterFinished = true;
         }
@@ -118,16 +162,14 @@ public class FallingItem : MonoBehaviour
         }
     }
 
-    // ¡Ú ÆÄÆí/±×·ì ÅÂ±× ÀÏ°ı ½ºÀ§Ä¡ (enable=true ¡æ "Trash", false ¡æ "Untagged")
+    // â˜… íŒŒí¸/ê·¸ë£¹ íƒœê·¸ ì¼ê´„ ìŠ¤ìœ„ì¹˜ (enable=true â†’ "Trash", false â†’ "Untagged")
     void SetCollectibleTag(Transform broken, bool enable)
     {
         string tagName = enable ? "Trash" : "Untagged";
 
-        // ÆÄÆí(Shard_*)µé
         var parts = broken.GetComponentsInChildren<ShardCollectible>(true);
         foreach (var p in parts) if (p) p.gameObject.tag = tagName;
 
-        // ±×·ì ¿ÀºêÁ§Æ®(GroupA/GroupB)µµ ¸ÂÃçµÎ¸é Vacuum¿¡¼­ ´Ù·ç±â ÆíÇÔ
         var groups = broken.GetComponentsInChildren<ShardGroup>(true);
         foreach (var g in groups) if (g) g.gameObject.tag = tagName;
     }
@@ -136,8 +178,7 @@ public class FallingItem : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            Debug.Log("°í¾çÀÌ°¡ ¾å!");
-
+            Debug.Log("ê³ ì–‘ì´ê°€ ì–!");
             playerHP.HeartCounter();
             sturn.SturnEffect();
         }

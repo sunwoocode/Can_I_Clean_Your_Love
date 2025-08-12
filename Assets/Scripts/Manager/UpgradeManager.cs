@@ -20,7 +20,7 @@ public class UpgradeManager : MonoBehaviour     // 업그레이드 페널 출력
 
     public GameObject catHandAttack;
     public EnermyManager rival;
-    public BombTriggerGate bombTriggerGate;
+    [SerializeField] private PlayerWineSpawner playerWineSpawner;
 
     public void ShowClassUIList()
     {
@@ -36,7 +36,7 @@ public class UpgradeManager : MonoBehaviour     // 업그레이드 페널 출력
         catHandAttack.GetComponent<CatHandAttack>().SetPaused(true);
 
         rival.PauseMove();
-        bombTriggerGate.SetPaused(true);
+        playerWineSpawner.SetPaused(true);
     }
 
     public void HideClassUIList()
@@ -50,7 +50,7 @@ public class UpgradeManager : MonoBehaviour     // 업그레이드 페널 출력
         catHandAttack.GetComponent<CatHandAttack>().SetPaused(false);
 
         rival.ResumeMove();
-        bombTriggerGate.SetPaused(false);
+        playerWineSpawner.SetPaused(false);
     }
 
 
